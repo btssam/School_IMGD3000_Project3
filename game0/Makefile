@@ -1,78 +1,42 @@
-#
-# Makefile for saucer shoot game using Dragonfly
-#
-# Copyright Mark Claypool and WPI, 2016-2025
-#
-# 'make' to build executable
-# 'make depend' to generate new dependency list
-# 'make clean' to remove all constructed files
-#
-# Variables of interest:
-#   GAMESRC is the source code files for the game
-#   GAME is the game main() source
-#   EXECUTABLE is the name of the runnable game
-#   ENG is the name of the Dragonfly engine
-#
-
-# Compiler.
-CC= g++ 
-
-# Libraries and includes.
-LINKDIR= -L../dragonfly/lib # path to dragonfly library
-INCDIR= -I../dragonfly/include # path to dragonfly includes
-SFML_VERSION= 3.1.0
-
-### Uncomment and update below if using local SFML installation.
-# LOCALSFML= $(HOME)/src/SFML-$(SFML_VERSION)
-# LINKDIR:= $(LINKDIR) -L $(LOCALSFML)/lib
-# INCDIR:= $(INCDIR) -I$(LOCALSFML)/include
-
+CC= g++
 CFLAGS= -std=c++17
 
-### Uncomment either 1) or 2) below! ###
+# Engine paths
+INCDIR= -I../dragonfly/include
+LINKDIR= -L../dragonfly/lib
 
-## 1) For Linux:
-ENG= dragonfly-x64-linux
-CFLAGS:= $(CFLAGS) -Wall
-LINKLIB= -l$(ENG) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lrt
+# Detect Operating System
+UNAME_S := $(shell uname -s)
 
-## 2) For Mac:
-#ENG= dragonfly-arm64-mac
-#LINKLIB= -l$(ENG) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio 
-#CFLAGS:= $(CFLAGS) -Wl,-rpath,$(HOME)/src/SFML/lib # runtime linking
-#Note, if using homewbrew install (not local), uncomment:
-#LOCALSFML= /opt/homebrew/Cellar/sfml/$(SFML_VERSION)
-#LINKDIR:= $(LINKDIR) -L $(LOCALSFML)/lib
+ifeq ($(UNAME_S),Darwin)
+  # === macOS (Apple Silicon Homebrew) ===
+  ENG= dragonfly-arm64-mac
+  INCDIR:= $(INCDIR) -I/opt/homebrew/include
+  LINKDIR:= $(LINKDIR) -L/opt/homebrew/lib
+  CFLAGS:= $(CFLAGS) -Wl,-rpath,/opt/homebrew/lib
+  LINKLIB= -l$(ENG) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+else
+  # === Linux ===
+  ENG= dragonfly-x64-linux
+  CFLAGS:= $(CFLAGS) -Wall
+  LINKLIB= -l$(ENG) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lrt
+endif
 
-######
-
-GAMESRC= \
-	Saucer.cpp \
-	Hero.cpp \
-	Bullet.cpp \
-	Reticle.cpp \
-	Explosion.cpp \
-	EventNuke.cpp \
-	Points.cpp \
-	Star.cpp \
-	GameOver.cpp \
-	GameStart.cpp \
-	EventSlow.cpp
-
+# Files to compile
+GAMESRC= # list of .cpp files
 GAME= game.cpp
 EXECUTABLE= game
 OBJECTS= $(GAMESRC:.cpp=.o)
 
 .PHONY: all clean
 
-all: $(EXECUTABLE) Makefile
+all: $(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJECTS) $(GAME) $(GAMESRC) 
-	$(CC) $(CFLAGS) $(GAME) $(OBJECTS) -o $@ $(INCDIR) $(LINKDIR) $(LINKLIB) 
+$(EXECUTABLE): $(OBJECTS) $(GAME)
+	$(CC) $(CFLAGS) $(GAME) $(OBJECTS) -o $@ $(INCDIR) $(LINKDIR) $(LINKLIB)
 
-.cpp.o: 
+.cpp.o:
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCDIR)
 
 clean:
 	rm -rf $(OBJECTS) $(EXECUTABLE) core dragonfly.log Makefile.bak *~
-# DO NOT DELETE

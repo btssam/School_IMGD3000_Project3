@@ -1,0 +1,39 @@
+# Compiled binaries and executables
+game
+game1
+*.exe
+
+# Object and dependency files
+*.o
+*.d
+
+# Runtime logs and crash dumps
+dragonfly.log
+*.log
+core
+core.[0-9]*
+
+# Editor and temporary backup files
+Makefile.bak
+*~
+*.swp
+*.swo
+
+# IDE configurations
+.vscode/
+
+# macOS system files
+.DS_Store
+._*
+
+# Visual Studio build artifacts (if anyone opens solutions or builds on Windows)
+.vs/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+ipch/
+*.suo
+*.user
+*.ncb
+*.sbr
