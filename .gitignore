@@ -1,6 +1,4 @@
 # Compiled binaries and executables
-game
-game1
 *.exe
 
 # Object and dependency files
