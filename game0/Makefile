@@ -23,7 +23,19 @@ else
 endif
 
 # Files to compile
-GAMESRC= # list of .cpp files
+# Files to compile
+GAMESRC= \
+	Saucer.cpp \
+	Hero.cpp \
+	Bullet.cpp \
+	Reticle.cpp \
+	Explosion.cpp \
+	EventNuke.cpp \
+	Points.cpp \
+	Star.cpp \
+	GameOver.cpp \
+	GameStart.cpp \
+	EventSlow.cpp
 GAME= game.cpp
 EXECUTABLE= game
 OBJECTS= $(GAMESRC:.cpp=.o)
