@@ -11,6 +11,8 @@
 #include "Object.h"
 #include "Vector.h"
 
+#include "Hero.h"
+
 // A simple game object that displays a '*' character in the center of the screen
 class Star : public df::Object {
 public:
@@ -45,6 +47,7 @@ int main(int argc, char* argv[]) {
     }
     LM.setFlush(true);
     new Star();
+    new Hero();
     GM.run();
     GM.shutDown();
     return 0;

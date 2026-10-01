@@ -1,0 +1,1 @@
+//includes background sprite info and potential interactable objects. A 1x1 area on the grid.

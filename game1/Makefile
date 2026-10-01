@@ -15,6 +15,7 @@ GAME= game1.cpp
 
 # List all additional .cpp files here (e.g. Player.cpp \ Dungeon.cpp):
 GAMESRC= \
+	Hero.cpp\
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)
