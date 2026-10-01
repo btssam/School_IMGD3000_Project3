@@ -6,12 +6,13 @@
 // #include "EventMouse.h"
 // #include "Reticle.h"
 
-
 #include "Room.h"
+#include "UI.h"
 
 
 class Hero : public df::Object {
     private:
+        UI* p_ui;
         void kbd(const df::EventKeyboard *p_keyboard_event);
         void move_up();
         void turn_left();
@@ -52,7 +53,7 @@ class Hero : public df::Object {
 
         // Reticle *p_reticle; //probably want a reticle for fighting
     public:
-        Hero();
+        Hero(UI* p_ui);
         ~Hero();
         int eventHandler(const df::Event *p_e) override;
 };

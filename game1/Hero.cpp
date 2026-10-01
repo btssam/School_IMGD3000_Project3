@@ -9,7 +9,9 @@
 #include "EventView.h"
 
 
-Hero::Hero() {
+Hero::Hero(UI* p_ui) {
+    this->p_ui = p_ui;
+
     registerInterest(df::KEYBOARD_EVENT);
     registerInterest(df::STEP_EVENT);
     // registerInterest(df::MSE_EVENT);
@@ -76,6 +78,14 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 turn_right();
             break;
+
+        // TEST to see if health decreases by pressing "h"
+        case df::Keyboard::H:
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+                p_ui->setHP(p_ui->getHP() - 10);
+            }
+            break;
+
         //to silence warnings about not defining every single key
         default:
             break;
