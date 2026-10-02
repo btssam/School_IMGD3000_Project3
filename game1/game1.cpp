@@ -50,10 +50,10 @@ int main(int argc, char* argv[]) {
 
     LM.setFlush(true);
 
-   if (RM.loadSprite("sprites/ui.txt", "ui") != 0) {
-    LM.writeLog("Error loading UI sprite");
-    GM.shutDown();
-    return 1;
+    if (RM.loadSprite("sprites/ui.txt", "ui") != 0) {
+        LM.writeLog("Error loading UI sprite");
+        GM.shutDown();
+        return 1;
    }
 
     UI* p_ui = new UI();

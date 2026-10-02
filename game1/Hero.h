@@ -22,9 +22,6 @@ class Hero : public df::Object {
         // void take_damage(); //lower hp
         // void attack(); //use reticle to attack if facing an enemy
 
-
-        bool isFacingWall; //disables moving_up
-        
         enum class Direction {
         NORTH = -1,
         EAST = 0,
@@ -32,6 +29,9 @@ class Hero : public df::Object {
         WEST,
         };
 
+
+        bool isFacingWall; //disables moving_up
+        
         Direction facingDirection;
 
         //Room currentRoom; #still need to make Room.h/cpp
