@@ -44,6 +44,9 @@ void loadResources(void) {
         LM.writeLog("Error loading UI sprite");
     }
 
+    //minimap
+    RM.loadSprite("sprites/map_1_3x3.txt", "map-3x3");
+
     //wall sprites
     RM.loadSprite("sprites/wall_1.txt", "wall-1");
     RM.loadSprite("sprites/wall_2.txt", "wall-2");

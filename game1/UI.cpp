@@ -3,6 +3,8 @@
 #include "LogManager.h"
 #include <string>
 
+#include "ResourceManager.h"
+
 UI::UI() {
     setType("UI");
 
@@ -41,6 +43,13 @@ int UI::draw() {
             df::WHITE
         );
     }
+
+    //minimap
+    df::Sprite* p_map_spr = RM.getSprite("map-3x3");
+    if (p_map_spr != nullptr){
+        p_map_spr->draw(0, df::Vector(54, 21), ' ');
+    }
+
 
     return result;
 }
