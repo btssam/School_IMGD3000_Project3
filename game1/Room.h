@@ -33,21 +33,11 @@ class Room {
         // bool m_visited;
     public:
         Room();
-        Room(bool north, bool east, bool south, bool west);
-        // bool hasWallNorth() const { return isWallNorth; }
-        // bool hasWallEast() const  { return isWallEast; }
-        // bool hasWallSouth() const { return isWallSouth; }
-        // bool hasWallWest() const  { return isWallWest; }
 
         //North, East, South, West
         void setWalls(bool north, bool east, bool south, bool west);
 
 
-        // Setters for wall blockage
-        void setIsNorthWall(bool blocked);
-        void setIsEastWall(bool blocked);
-        void setIsSouthWall(bool blocked);
-        void setIsWestWall(bool blocked);
         // Setters for sprite names
         void setNorthSpriteString(std::string sprite);
         void setEastSpriteString(std::string sprite);
@@ -55,7 +45,6 @@ class Room {
         void setWestSpriteString(std::string sprite);
         // Position on the map grid
         void setGridPosition(df::Vector pos);
-        df::Vector getGridPosition() const;
         // Getters for wall blockage
         bool getIsNorthWall() const;
         bool getIsEastWall() const;

@@ -15,20 +15,6 @@ Room::Room(){
     gridPosition = df::Vector(0, 0);
 }
 
-Room::Room(bool north, bool east, bool south, bool west){
-    isWallNorth = north;
-    isWallEast = east;
-    isWallSouth = south;
-    isWallWest = west;
-
-    northSprite = "";
-    eastSprite = "";
-    southSprite = "";
-    westSprite = "";
-
-    gridPosition = df::Vector(0, 0);
-}
-
 void Room::setWalls(bool north, bool east, bool south, bool west) {
     isWallNorth = north;
     isWallEast = east;
@@ -37,14 +23,6 @@ void Room::setWalls(bool north, bool east, bool south, bool west) {
 }
 
 // Setters
-void Room::setIsNorthWall(bool blocked) { isWallNorth = blocked; }
-
-void Room::setIsEastWall(bool blocked)  { isWallEast = blocked; }
-
-void Room::setIsSouthWall(bool blocked) { isWallSouth = blocked; }
-
-void Room::setIsWestWall(bool blocked)  { isWallWest = blocked; }
-
 void Room::setNorthSpriteString(std::string sprite) { northSprite = sprite; }
 
 void Room::setEastSpriteString(std::string sprite)  { eastSprite = sprite; }
@@ -54,8 +32,6 @@ void Room::setSouthSpriteString(std::string sprite) { southSprite = sprite; }
 void Room::setWestSpriteString(std::string sprite)  { westSprite = sprite; }
 
 void Room::setGridPosition(df::Vector pos) { gridPosition = pos; }
-
-df::Vector Room::getGridPosition() const   { return gridPosition; }
 
 // Getters
 bool Room::getIsNorthWall() const { return isWallNorth; }

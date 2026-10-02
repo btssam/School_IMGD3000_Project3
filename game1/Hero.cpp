@@ -2,11 +2,11 @@
 // #include "GameOver.h"
 
 #include "LogManager.h"
-#include "WorldManager.h"
-#include "ResourceManager.h"
+// #include "WorldManager.h"
+// #include "ResourceManager.h"
 #include "GameManager.h"
 #include "EventStep.h"
-#include "EventView.h"
+// #include "EventView.h"
 #include "UI.h"
 
 
@@ -24,7 +24,7 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     
     gridPosition = df::Vector(0, 0);
 
-    move_slowdown = 20;
+    move_slowdown = 16;
     move_countdown = move_slowdown;
 
     facingDirection = Direction::NORTH;
@@ -70,19 +70,21 @@ int Hero::eventHandler(const df::Event *p_e){
 void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
     switch(p_keyboard_event->getKey()){
         case df::Keyboard::Q: //quit
-            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
                 GM.setGameOver(true);
             break;
-        //I should allow arrow keys too
-        case df::Keyboard::W: //up
-            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
+        case df::Keyboard::W:
+        case df::Keyboard::UPARROW:
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 move_up();
             break;
-        case df::Keyboard::A: //left
+        case df::Keyboard::A:
+        case df::Keyboard::LEFTARROW:
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 turn_left();
             break;
-        case df::Keyboard::D: //right
+        case df::Keyboard::D:
+        case df::Keyboard::RIGHTARROW:
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 turn_right();
             break;
