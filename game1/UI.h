@@ -9,6 +9,7 @@
 class UI : public df::Object {
     private:
         int m_hp;
+        int m_max_hp;
         std::vector<std::string> m_log;
 
         df::Vector m_hero_pos;

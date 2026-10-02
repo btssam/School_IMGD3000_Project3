@@ -9,6 +9,7 @@ UI::UI() {
     setType("UI");
 
     m_hp = 100;
+    m_max_hp = 100;
     m_log.clear();
 
     int result = setSprite("ui");
@@ -31,11 +32,24 @@ int UI::draw() {
 
     // HP
     DM.drawString(
-        df::Vector(3, 20),
+        df::Vector(5, 19.5),
         std::to_string(m_hp),
-        df::LEFT_JUSTIFIED,
+        df::CENTER_JUSTIFIED,
         df::RED
     );
+    DM.drawString(
+        df::Vector(5, 20.5),
+        "---",
+        df::CENTER_JUSTIFIED,
+        df::RED
+    );
+    DM.drawString(
+        df::Vector(5, 21.5),
+        std::to_string(m_max_hp),
+        df::CENTER_JUSTIFIED,
+        df::RED
+    );
+
 
     // Log
     for (int i = 0; i < static_cast<int>(m_log.size()) && i < 3; i++) {

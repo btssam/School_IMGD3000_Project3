@@ -8,6 +8,7 @@
 #include "EventStep.h"
 // #include "EventView.h"
 #include "UI.h"
+#include <math.h>
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -93,7 +94,7 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
         // TEST to see if health decreases by pressing "h"
         case df::Keyboard::H:
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-                p_ui->setHP(p_ui->getHP() - 10);
+                take_damage(10);
             }
             break;
 
@@ -219,4 +220,12 @@ void Hero::step(){
     move_countdown--;
     if (move_countdown < 0)
         move_countdown = 0;
+}
+
+void Hero::take_damage(int amount){
+    p_ui->setHP(std::max(0, p_ui->getHP() - amount));
+    if (p_ui->getHP() <= 0){
+        p_ui->addLogMessage("I am dead!");
+        //GM.setGameOver(true);
+    }
 }
