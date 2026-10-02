@@ -26,6 +26,7 @@ Makefile.bak
 
 # Visual Studio build artifacts (if anyone opens solutions or builds on Windows)
 .vs/
+.vscode/
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/

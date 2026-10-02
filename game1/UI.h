@@ -4,11 +4,15 @@
 #include "Object.h"
 #include <string>
 #include <vector>
+#include "Vector.h"
 
 class UI : public df::Object {
     private:
         int m_hp;
         std::vector<std::string> m_log;
+
+        df::Vector m_hero_pos;
+        std::string m_map_sprite_label;
 
     public:
         UI();
@@ -20,6 +24,9 @@ class UI : public df::Object {
         int getHP() const;
 
         void addLogMessage(std::string message);
+
+        void setHeroPosition(df:: Vector pos);
+        void setMapSprite(std::string sprite_label);
 };
 
 #endif

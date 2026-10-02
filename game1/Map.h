@@ -1,4 +1,5 @@
 //series of Rooms, in x-y grid
+//also handles the visual generation of the current room (the sprite)
 #pragma once
 
 #include "Room.h"
@@ -12,8 +13,12 @@ class Map: public df::Object {
         Room grid[MAP_WIDTH][MAP_HEIGHT];
     
     public:
+        //Map Construction
         Map();
+        //Map Destructor
         ~Map();
+        //get a specific room pointer at a particular grid position
         Room* getRoom(int x, int y);
+        //update the actual visual sprite representation, based on hero's grid position and facing direction
         void updateView(df::Vector heroPos, Direction heroDir);
 };

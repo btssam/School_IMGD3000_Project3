@@ -21,6 +21,9 @@ UI::UI() {
     }
 
     setPosition(df::Vector(40, 20));
+
+    m_hero_pos = df::Vector(0, 0);
+    m_map_sprite_label = "map-3x3";
 }
 
 int UI::draw() {
@@ -45,9 +48,40 @@ int UI::draw() {
     }
 
     //minimap
-    df::Sprite* p_map_spr = RM.getSprite("map-3x3");
+    df::Sprite* p_map_spr = RM.getSprite(m_map_sprite_label);
     if (p_map_spr != nullptr){
-        p_map_spr->draw(0, df::Vector(54, 21), ' ');
+        df::Vector minimap_center(54, 21);
+
+        //draw the base minimap sprite
+        p_map_spr->draw(0, minimap_center, ' ');
+
+        //compute top-left corner of sprite in screen char coordinates (allow for different size maps)
+        int spr_w = p_map_spr->getWidth();
+        int spr_h = p_map_spr->getHeight();
+
+        float top_left_x = minimap_center.getX() - ((spr_w-1) / 2.0f);
+        float top_left_y = minimap_center.getY() - ((spr_h-1) / 2.0f);
+
+        //compute screen coordinates for current room
+        float cell_space_x = top_left_x + 1.0f + (m_hero_pos.getX() * 3.0f);
+        float cell_space_y = top_left_y + 1.0f + m_hero_pos.getY();
+
+
+        //convert ascii char coordinates to sfml window pixels
+        df::Vector pixel_pos = df::spacesToPixels(df::Vector(cell_space_x, cell_space_y));
+        
+        //create sfml rectangle to represent character on map
+        sf::RectangleShape highlight(sf::Vector2f(df::charWidth() * 2.0f, df::charHeight()));
+
+        highlight.setFillColor(sf::Color(0, 255, 0, 80));
+        highlight.setPosition(sf::Vector2f(pixel_pos.getX(), pixel_pos.getY()));
+
+        //draw direction onto SFML render window
+        sf::RenderWindow* p_window = DM.getWindow();
+        if (p_window != nullptr) {
+            p_window->draw(highlight);
+        }
+
     }
 
 
@@ -74,4 +108,12 @@ void UI::addLogMessage(std::string message) {
 
 int UI::eventHandler(const df::Event* p_e) {
     return 0;
+}
+
+void UI::setHeroPosition(df::Vector pos){
+    m_hero_pos = pos;
+}
+
+void UI::setMapSprite(std::string sprite_label){
+    m_map_sprite_label = sprite_label;
 }

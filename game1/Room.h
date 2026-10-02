@@ -1,4 +1,5 @@
 //includes background sprite info and potential interactable objects. A 1x1 area on the grid.
+//not an object, basically just a container for the information for a given room
 #pragma once
 
 

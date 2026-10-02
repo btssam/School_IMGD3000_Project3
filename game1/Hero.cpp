@@ -31,6 +31,8 @@ Hero::Hero(UI* p_ui, Map* p_map) {
 
     p_map->updateView(gridPosition, facingDirection);
 
+    p_ui->setHeroPosition(gridPosition);
+
     // fire_slowdown = 15;
     // fire_countdown = fire_slowdown;
 
@@ -140,6 +142,7 @@ void Hero::move_up(){
 
     printf("X: %.0f, Y: %.0f\n", gridPosition.getX(), gridPosition.getY());
 
+    p_ui->setHeroPosition(gridPosition);
     p_map->updateView(gridPosition, facingDirection);
 }
 
