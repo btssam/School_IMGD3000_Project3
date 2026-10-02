@@ -59,6 +59,9 @@ void loadResources(void) {
     RM.loadSprite("sprites/hallway_3.txt", "hallway-3");
     RM.loadSprite("sprites/hallway_4.txt", "hallway-4");
 
+    //game over sprite
+    RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+
 }
 
 void populateWorld(void) {

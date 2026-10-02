@@ -18,7 +18,8 @@ GAMESRC= \
     Hero.cpp\
     UI.cpp\
     Room.cpp\
-    Map.cpp
+    Map.cpp \
+    GameOver.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)

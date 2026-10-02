@@ -1,14 +1,15 @@
 #include "Hero.h"
-// #include "GameOver.h"
+#include "GameOver.h"
 
 #include "LogManager.h"
-// #include "WorldManager.h"
+#include "WorldManager.h"
 // #include "ResourceManager.h"
 #include "GameManager.h"
 #include "EventStep.h"
 // #include "EventView.h"
 #include "UI.h"
 #include <math.h>
+#include "DisplayManager.h"
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -43,7 +44,7 @@ Hero::Hero(UI* p_ui, Map* p_map) {
 }
 
 Hero::~Hero(){
-    // new GameOver;
+    new GameOver;
     // WM.markForDelete(p_reticle);
 }
 
@@ -224,8 +225,10 @@ void Hero::step(){
 
 void Hero::take_damage(int amount){
     p_ui->setHP(std::max(0, p_ui->getHP() - amount));
+    p_ui->addLogMessage("I took " + std::to_string(amount) + " damage!");
+    DM.shake(4, 4, 8);
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
-        //GM.setGameOver(true);
+        WM.markForDelete(this);
     }
 }
