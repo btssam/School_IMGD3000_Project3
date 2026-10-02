@@ -50,7 +50,7 @@ int UI::draw() {
     //minimap
     df::Sprite* p_map_spr = RM.getSprite(m_map_sprite_label);
     if (p_map_spr != nullptr){
-        df::Vector minimap_center(54, 21);
+        df::Vector minimap_center(54, 20);
 
         //draw the base minimap sprite
         p_map_spr->draw(0, minimap_center, ' ');
