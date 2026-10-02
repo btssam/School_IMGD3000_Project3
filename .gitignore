@@ -1,5 +1,6 @@
 # Compiled binaries and executables
 *.exe
+game1/game1
 
 # Object and dependency files
 *.o
