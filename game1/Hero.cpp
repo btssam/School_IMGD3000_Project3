@@ -9,8 +9,9 @@
 #include "EventView.h"
 
 
-Hero::Hero(UI* p_ui) {
+Hero::Hero(UI* p_ui, Map* p_map) {
     this->p_ui = p_ui;
+    this->p_map = p_map;
 
     registerInterest(df::KEYBOARD_EVENT);
     registerInterest(df::STEP_EVENT);
@@ -26,6 +27,9 @@ Hero::Hero(UI* p_ui) {
     move_countdown = move_slowdown;
 
     facingDirection = Direction::NORTH;
+
+
+    p_map->updateView(gridPosition, facingDirection);
 
     // fire_slowdown = 15;
     // fire_countdown = fire_slowdown;
@@ -62,10 +66,10 @@ int Hero::eventHandler(const df::Event *p_e){
 //take action based on which key was pressed
 void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
     switch(p_keyboard_event->getKey()){
-        // case df::Keyboard::Q: //quit
-            // if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
-            //     WM.markForDelete(this);
-            // break;
+        case df::Keyboard::Q: //quit
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
+                GM.setGameOver(true);
+            break;
         case df::Keyboard::W: //up
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
                 move_up();
@@ -95,17 +99,29 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
 void Hero::move_up(){
     //check if allowed to move (e.g. fighting)
     //see if its time to move (check cooldown). throttles movement so its not too fast
-    if (move_countdown > 0) //might need to consolidate this countdown check into one function (i.e. not do it for all 3 movement types)
+    if (move_countdown > 0)
         return;
     move_countdown = move_slowdown;
-    printf("I move up\n");
+    printf("I try to move up\n");
 
-    //update grid position based on facing direction/current room
+    Room* p_current = p_map->getRoom(gridPosition.getX(), gridPosition.getY());
+    isFacingWall = false;
+
+    if (p_current != nullptr){
+        if (facingDirection == Direction::NORTH) isFacingWall = p_current->getIsNorthWall();
+        else if (facingDirection == Direction::EAST)  isFacingWall = p_current->getIsEastWall();
+        else if (facingDirection == Direction::SOUTH) isFacingWall = p_current->getIsSouthWall();
+        else if (facingDirection == Direction::WEST)  isFacingWall = p_current->getIsWestWall();
+    }
+
+    if (isFacingWall) {
+        printf("I am facing a wall, cannot move forward\n");
+        return;
+    }
 
     switch (facingDirection) {
     case Direction::NORTH:
         printf("I am facing NORTH\n");
-        //unsure if I should use -1 for up, like drawing in dragonfly, or +1 for up, like math
         gridPosition.setY(gridPosition.getY() - 1); //might want a setter for this, to confirm if within map bounds
         break;
     case Direction::EAST:
@@ -123,6 +139,8 @@ void Hero::move_up(){
     }
 
     printf("X: %.0f, Y: %.0f\n", gridPosition.getX(), gridPosition.getY());
+
+    p_map->updateView(gridPosition, facingDirection);
 }
 
 
@@ -152,6 +170,9 @@ void Hero::turn_left(){
         printf("I am facing NORTH\n");
         break;
     }
+
+    p_map->updateView(gridPosition, facingDirection);
+
 
     //update what character currently sees based on facing direction/current room
 
@@ -183,6 +204,9 @@ void Hero::turn_right(){
         printf("I am facing NORTH\n");
         break;
     }
+
+    p_map->updateView(gridPosition, facingDirection);
+
 
     //update what character currently sees based on facing direction/current room
 

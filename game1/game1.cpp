@@ -1,61 +1,64 @@
 //
-// game1.cpp - Minimal Dragonfly starter
+// game1.cpp - Dungeon Crawler starter
 //
 
 // Engine includes
 #include "GameManager.h"
 #include "LogManager.h"
-#include "DisplayManager.h"
 #include "ResourceManager.h"
-#include "WorldManager.h"
-#include "EventKeyboard.h"
-#include "Object.h"
-#include "Vector.h"
 
+//game includes
 #include "Hero.h"
+#include "Map.h"
 #include "UI.h"
 
-// A simple game object that displays a '*' character in the center of the screen
-class Star : public df::Object {
-public:
-    Star() {
-        setType("Star");
-        setPosition(df::Vector(40, 12));
-        registerInterest(df::KEYBOARD_EVENT);
-    }
-
-    int draw(void) override {
-        return DM.drawCh(getPosition(), '*', df::YELLOW);
-    }
-
-    int eventHandler(const df::Event* p_e) override {
-        if (p_e->getType() == df::KEYBOARD_EVENT) {
-            const df::EventKeyboard* p_keyboard_event = dynamic_cast<const df::EventKeyboard*>(p_e);
-            if (p_keyboard_event && p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-                if (p_keyboard_event->getKey() == df::Keyboard::Q) {
-                    GM.setGameOver(true);
-                    return 1;
-                }
-            }
-        }
-        return 0;
-    }
-};
+//function prototypes
+void loadResources(void);
+void populateWorld(void);
 
 int main(int argc, char* argv[]) {
+    //start up game manager
     if (GM.startUp() != 0) {
         LM.writeLog("Error starting game manager!");
         return 1;
     }
 
+    //flush logfile
     LM.setFlush(true);
 
+    //load sprites, sounds, etc.
+    loadResources();
+
+    //add the UI, map, hero, etc.
+    populateWorld();
+
+    GM.run();
+
+    GM.shutDown();
+    return 0;
+}
+
+void loadResources(void) {
+    //ui spirte
     if (RM.loadSprite("sprites/ui.txt", "ui") != 0) {
         LM.writeLog("Error loading UI sprite");
-        GM.shutDown();
-        return 1;
-   }
+    }
 
+    //wall sprites
+    RM.loadSprite("sprites/wall_1.txt", "wall-1");
+    RM.loadSprite("sprites/wall_2.txt", "wall-2");
+    RM.loadSprite("sprites/wall_3.txt", "wall-3");
+    RM.loadSprite("sprites/wall_4.txt", "wall-4");
+
+    //hallway sprites
+    RM.loadSprite("sprites/hallway_1.txt", "hallway-1");
+    RM.loadSprite("sprites/hallway_2.txt", "hallway-2");
+    RM.loadSprite("sprites/hallway_3.txt", "hallway-3");
+    RM.loadSprite("sprites/hallway_4.txt", "hallway-4");
+
+}
+
+void populateWorld(void) {
     UI* p_ui = new UI();
     // Log tests
     p_ui->addLogMessage("Message 1 oh yeah");
@@ -63,9 +66,6 @@ int main(int argc, char* argv[]) {
     p_ui->addLogMessage("Message 3 let's go");
     p_ui->addLogMessage("Message 4 booyah");
 
-    new Star();
-    new Hero(p_ui);
-    GM.run();
-    GM.shutDown();
-    return 0;
+    Map* p_map = new Map();
+    new Hero(p_ui, p_map);
 }
