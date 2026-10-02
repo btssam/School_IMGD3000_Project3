@@ -40,7 +40,7 @@ int UI::draw() {
     // Log
     for (int i = 0; i < static_cast<int>(m_log.size()) && i < 3; i++) {
         DM.drawString(
-            df::Vector(11, 19.5 + i),
+            df::Vector(10, 19.5 + i),
             m_log[i],
             df::LEFT_JUSTIFIED,
             df::WHITE

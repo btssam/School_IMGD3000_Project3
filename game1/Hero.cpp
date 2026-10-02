@@ -7,6 +7,7 @@
 #include "GameManager.h"
 #include "EventStep.h"
 #include "EventView.h"
+#include "UI.h"
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -72,6 +73,7 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 GM.setGameOver(true);
             break;
+        //I should allow arrow keys too
         case df::Keyboard::W: //up
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
                 move_up();
@@ -84,6 +86,7 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
                 turn_right();
             break;
+        //consider adding back to move backwards?
 
         // TEST to see if health decreases by pressing "h"
         case df::Keyboard::H:
@@ -104,7 +107,6 @@ void Hero::move_up(){
     if (move_countdown > 0)
         return;
     move_countdown = move_slowdown;
-    printf("I try to move up\n");
 
     Room* p_current = p_map->getRoom(gridPosition.getX(), gridPosition.getY());
     isFacingWall = false;
@@ -117,30 +119,28 @@ void Hero::move_up(){
     }
 
     if (isFacingWall) {
-        printf("I am facing a wall, cannot move forward\n");
+        p_ui->addLogMessage("I hit a WALL. Ow!");
         return;
     }
 
     switch (facingDirection) {
     case Direction::NORTH:
-        printf("I am facing NORTH\n");
+        p_ui->addLogMessage("I move NORTH");
         gridPosition.setY(gridPosition.getY() - 1); //might want a setter for this, to confirm if within map bounds
         break;
     case Direction::EAST:
-        printf("I am facing EAST\n");
+        p_ui->addLogMessage("I move EAST");
         gridPosition.setX(gridPosition.getX() + 1);
         break;
     case Direction::SOUTH:
-        printf("I am facing SOUTH\n");
+        p_ui->addLogMessage("I move SOUTH");
         gridPosition.setY(gridPosition.getY() + 1);
         break;
     case Direction::WEST:
-        printf("I am facing WEST\n");
+        p_ui->addLogMessage("I move WEST");
         gridPosition.setX(gridPosition.getX() - 1);
         break;
     }
-
-    printf("X: %.0f, Y: %.0f\n", gridPosition.getX(), gridPosition.getY());
 
     p_ui->setHeroPosition(gridPosition);
     p_map->updateView(gridPosition, facingDirection);
@@ -154,23 +154,22 @@ void Hero::turn_left(){
     if (move_countdown > 0)
         return;
     move_countdown = move_slowdown;
-    printf("i turn left\n");
     switch (facingDirection) {
     case Direction::NORTH:
         facingDirection = Direction::WEST;
-        printf("I am facing WEST\n");
+        p_ui->addLogMessage("I turn left: WEST");
         break;
     case Direction::WEST:
         facingDirection = Direction::SOUTH;
-        printf("I am facing SOUTH\n");
+        p_ui->addLogMessage("I turn left: SOUTH");
         break;
     case Direction::SOUTH:
         facingDirection = Direction::EAST;
-        printf("I am facing EAST\n");
+        p_ui->addLogMessage("I turn left: EAST");
         break;
     case Direction::EAST:
         facingDirection = Direction::NORTH;
-        printf("I am facing NORTH\n");
+        p_ui->addLogMessage("I turn left: NORTH");
         break;
     }
 
@@ -188,23 +187,22 @@ void Hero::turn_right(){
     if (move_countdown > 0)
         return;
     move_countdown = move_slowdown;
-    printf("i turn right\n");
     switch (facingDirection) {
     case Direction::NORTH:
         facingDirection = Direction::EAST;
-        printf("I am facing EAST\n");
+        p_ui->addLogMessage("I turn right: EAST");
         break;
     case Direction::EAST:
         facingDirection = Direction::SOUTH;
-        printf("I am facing SOUTH\n");
+        p_ui->addLogMessage("I turn right: SOUTH");
         break;
     case Direction::SOUTH:
         facingDirection = Direction::WEST;
-        printf("I am facing WEST\n");
+        p_ui->addLogMessage("I turn right: WEST");
         break;
     case Direction::WEST:
         facingDirection = Direction::NORTH;
-        printf("I am facing NORTH\n");
+        p_ui->addLogMessage("I turn right: NORTH");
         break;
     }
 
