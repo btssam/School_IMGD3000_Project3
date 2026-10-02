@@ -21,7 +21,7 @@ UI::UI() {
         LM.writeLog("UI: setSprite SUCCESS");
     }
 
-    setPosition(df::Vector(40, 20));
+    setPosition(df::Vector(40, 20.5));
 
     m_hero_pos = df::Vector(0, 0);
     m_map_sprite_label = "map-3x3";
@@ -32,19 +32,19 @@ int UI::draw() {
 
     // HP
     DM.drawString(
-        df::Vector(5, 19.5),
+        df::Vector(5, 20),
         std::to_string(m_hp),
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 20.5),
+        df::Vector(5, 21),
         "---",
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 21.5),
+        df::Vector(5, 22),
         std::to_string(m_max_hp),
         df::CENTER_JUSTIFIED,
         df::RED
@@ -54,7 +54,7 @@ int UI::draw() {
     // Log
     for (int i = 0; i < static_cast<int>(m_log.size()) && i < 3; i++) {
         DM.drawString(
-            df::Vector(10, 19.5 + i),
+            df::Vector(10, 20 + i),
             m_log[i],
             df::LEFT_JUSTIFIED,
             df::WHITE
@@ -64,7 +64,7 @@ int UI::draw() {
     //minimap
     df::Sprite* p_map_spr = RM.getSprite(m_map_sprite_label);
     if (p_map_spr != nullptr){
-        df::Vector minimap_center(54, 20);
+        df::Vector minimap_center(54, 20.5);
 
         //draw the base minimap sprite
         p_map_spr->draw(0, minimap_center, ' ');

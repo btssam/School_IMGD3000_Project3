@@ -3,7 +3,7 @@
 Map::Map(){
     setType("Map");
     //position on screen: center of the 80x18 area above UI
-    setPosition(df::Vector(40, 8));
+    setPosition(df::Vector(40, 8.5));
 
     //create room
     for (int x = 0; x< MAP_WIDTH; x++){
