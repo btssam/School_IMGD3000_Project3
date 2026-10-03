@@ -44,7 +44,10 @@ class Hero : public df::Object {
         //pointer to map;
         Map* p_map;
 
-        // bool isFighting; //true if in a room with an enemy. disable movement and enable attack
+        //true if in a room with an enemy. disable movement and enable attack
+        bool isFighting;
+        void checkCombat();
+
         // int fire_slowdown;  //delay input when fighting (maybe not needed)
         // int fire_countdown;
         // void fire(df::Vector target);

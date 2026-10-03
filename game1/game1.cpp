@@ -11,6 +11,8 @@
 #include "Hero.h"
 #include "Map.h"
 #include "UI.h"
+#include "Reticle.h"
+#include "Enemy.h"
 
 //function prototypes
 void loadResources(void);
@@ -39,10 +41,13 @@ int main(int argc, char* argv[]) {
 }
 
 void loadResources(void) {
-    //ui spirte
+    //ui sprite
     if (RM.loadSprite("sprites/ui.txt", "ui") != 0) {
         LM.writeLog("Error loading UI sprite");
     }
+
+    //reticle sprite
+    RM.loadSprite("sprites/reticle.txt", "reticle");
 
     //minimap
     RM.loadSprite("sprites/map_1_3x3.txt", "map-3x3");
@@ -62,16 +67,26 @@ void loadResources(void) {
     //game over sprite
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
 
+    //enemy sprites
+    RM.loadSprite("sprites/enemy.txt", "enemy");
+    RM.loadSprite("sprites/enemy-hit.txt", "enemy-hit");
+
 }
 
 void populateWorld(void) {
+    // populate UI
     UI* p_ui = new UI();
-    // Log tests
-    p_ui->addLogMessage("Message 1 oh yeah");
-    p_ui->addLogMessage("Message 2 aw yeah");
-    p_ui->addLogMessage("Message 3 let's go");
-    p_ui->addLogMessage("Message 4 booyah");
 
+    // populate reticle
+    new Reticle();
+
+    // populate map
     Map* p_map = new Map();
+    // populate hero
     new Hero(p_ui, p_map);
+
+    // populate enemy
+    new Enemy();
+
+    GM.run();
 }

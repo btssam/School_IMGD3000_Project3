@@ -20,6 +20,8 @@ GAMESRC= \
     Room.cpp\
     Map.cpp \
     GameOver.cpp \
+    Enemy.cpp \
+    Reticle.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)

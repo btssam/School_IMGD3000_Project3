@@ -22,7 +22,7 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     setType("Hero");
 
     isFacingWall = false;
-    // isFighting = false;
+    isFighting = false;
     
     gridPosition = df::Vector(0, 0);
 
@@ -107,6 +107,8 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
 
 void Hero::move_up(){
     //check if allowed to move (e.g. fighting)
+    if (isFighting)
+        return;
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
@@ -154,6 +156,8 @@ void Hero::move_up(){
 
 void Hero::turn_left(){
     //check if allowed to move (e.g. fighting)
+    if (isFighting)
+        return;
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
@@ -187,6 +191,8 @@ void Hero::turn_left(){
 
 void Hero::turn_right(){
     //check if allowed to move (e.g. fighting)
+    if (isFighting)
+        return;
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
@@ -221,6 +227,17 @@ void Hero::step(){
     move_countdown--;
     if (move_countdown < 0)
         move_countdown = 0;
+
+    checkCombat();
+
+    // Check if combat is over
+    if (isFighting) {
+        df::ObjectList enemies = WM.objectsOfType("enemy");
+
+        if (enemies.getCount() == 0) {
+            isFighting = false;
+        }
+    }
 }
 
 void Hero::take_damage(int amount){
@@ -230,5 +247,28 @@ void Hero::take_damage(int amount){
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
         WM.markForDelete(this);
+    }
+}
+
+void Hero::checkCombat() {
+    // Already fighting so don't need to start combat
+    if (isFighting)
+        return;
+
+    // Gett room the Hero is in
+    Room* p_current = p_map->getRoom(
+        gridPosition.getX(),
+        gridPosition.getY()
+    );
+
+    if (p_current == nullptr)
+        return ;
+
+    df::ObjectList enemies = WM.objectsOfType("enemy");
+
+    if (enemies.getCount() > 0) {
+        isFighting = true;
+
+        p_ui->addLogMessage("A CLayhead blocks my path!");
     }
 }
