@@ -1,0 +1,12 @@
+==============================================================
+Prompt 1:
+I wonder if my project 3 folder, in its current state, will have any issues with my partner running the game, who I believe uses Mac OS. Should I add anything to the .gitignore as well? We want to share assets.
+
+Prompt 2:
+What are your recommended specific steps to make sure our project is compatible betwen mac and linux effectively. It already runs okay on linux
+
+Prompt 3:
+Remember in my makefiles in project2, I would have a variable that would save all the .cpp and the .h files. Where is that variable, if anywhere? Can you use a similar strucuture, so that its incredibly obvious what I need to update when add a new file for the game?
+
+Prompt 4:
+I dont think I understand, I dont remember having to put .h files in my makes previously
