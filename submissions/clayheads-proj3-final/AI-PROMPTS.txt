@@ -1,0 +1,85 @@
+AI-Prompts.txt
+
+Generation of rooms based on given Map sprite with Antigravity coding agent (ran by Ben Samara):
+==============================================================
+Prompt 1:
+In Map::Map(), lines 24 to 78, I have a bunch of Room function calls that generate the map, based on the rooms of each individual wall.
+
+I will soon be upgrading from a 3x3 map 16x5 map, going from 9 rooms (with 5 lines of code each) to 80 rooms.
+
+I think, at this point, it should be possible to write a function that will set all these positions based on the sprite I provide.
+
+You can look at the sprite map files for reference: I have a 3x3 map, which is the one currently being constructed manually in the constructor. I had a 8x5, which is not used at all, but is a reasonable reference too, as it has the same height as the intended 16x5 map.
+
+There Each room is basically 3 characters.
+The first 2 characters are either:
+"  "
+representing a room with no wall to the south
+and
+"__"
+represnting a room with a wall to the south
+
+The third character is either:
+"|"
+representing a wall to the east
+and " "
+represnting no wall to the east
+
+If there is a wall to the north:
+this can be determined by the cell immediately above (i.e. if it has "__" as the first 2 character
+
+If there is a wall to the west:
+this can be determined by the cell immediately to the west (i.e if it has "|" as the last character)
+
+Notably:
+-The first row in the sprite can effectively be ignored - it is just drawn there to represent the top wall. All maps have a wall there
+-Every room in the top row has a wall to the north - you dont need to check the immediately above room (because there isnt one)
+-Ever room in the first column has a wall to the west - you dont need to check the immediately west room (as there is not one as well)
+-All rooms in the last column have a east wall, but this can easily be determined by the exisiting algorithim, and doesn't need to be converted differently.
+-All rooms in the last row have a wall to the south, but this can easily be determined by the exisiting algorithim, and doesn't need to be converted differently.
+
+Additionally, there is an important part with the hallway sprites:
+make sure hallways are connected via the same sprite (e.g if south of [0][0] is hallway-1, north of [0][1] is also hallway-1). so that if u turn around, it's the same hallway you saw on the way there. walls are less important. This will basically involve, whenever I am adding a hallway, 
+
+Additionally, for now, Im just incrementing the wall/hallway numbers whenever I want a new one
+
+I created a placeholder function for this:
+generateMapFromSprite(std::string spriteName)
+
+So fundamentally, this function would (using the 3x3 as an example:
+1. read the sprite.txt file
+2. read the height value of the sprite.txt (e.g 4) and subtract it by 1 and save this as an iteration counter (e.g 3) that we can call height
+3. read the width value of the sprite.txt (e.g 10) and subtract it by 1 and then divide by 3 [which are the character room width] (e.g 9/3 = 3) and save this as an iteration counter (e.g 3) that we can call width
+4. discard lines 1-9 of the .txt and lines (10 + height) until the end of the value (e.g discard lines 13 to the end of file (leaving only the petertinnt lines 
+[this discarding tasks might not be necessary in terms of actually discarding the lines - just know where to read the file]
+5. Read the next 3 characters of line 10 + height  - 1
+6. Read the 3 characters to determin south wall and righ wall boolean. track as temporary boolean var within loop.
+7. If height = 1(i.e for row), recognize that this must set the north wall to blocked. Otherwise, read the room to the north of it - if it has south wall, then set this room's north wall to be true. If not, set it to false.  track as temporary boolean var within loop.
+8. If width = 1 (i.e. first column), recognize that this must set the west wall to be blocked. Otherwise, read the room to the west of it it - if it has east wall, then set this room's west wall to be true. If not, set it to false.  track as temporary boolean var within loop.
+9. Set all 4 walls with setWalls(north, east, south, west). using the temporary booleans here
+10. Use a sprite-counter from 1-4 for the wall srites. This sprite counter will be first defined outside out of the loop. Set each of the walls in north east south west sequence, incrementing the counter and seting the wall sprite appropriately [there is some risk that adjacent walls will be the same, which is undesirable - might need help here in the algorithm]
+11. Use a halway-counter from 1-4 for the wall srites. This sprite counter will be first defined outside out of the loop. If a direction is a hallway, check if the room in that direction already has a hallway - if it does, use that same hallway-sprite. If not, use the hallway-sprite for that counter and increment. 
+12. Loop through steps 5-11 until reaching the end of the line (can use the width to determine how many loops are needed and incrementing the width counter as you go along). Then, when reaching the end of the line, increment the height and continue the loop on the next line appropriately. Do this until you've looped through the entire sprite.
+
+
+
+Give me some advice and an implementation plan
+
+==============================================================
+Prompt 2:
+[Quote](textBlock;label:Quote:East%20wall%3A%20char%20%3D%3D%20'%7C'%20(if%20it%20is%20'%20'%20or%20'_'%2C%20there%20is%20no%20east%20wall).) Your right, I think this is the only logical addition. Although I think th algorithim I described is sufficient if you just have an if else:
+if fist 2 char are __
+south wall (encompasses __ and ___)
+else:
+no south wall
+If 3rd char is |
+east wall 
+else:
+no east wall (encompasses ___ and __)
+
+[Quote](textBlock;label:Quote:Grid%20Sizing%3A%20Are%20you%20happy%20with%20using%20MAX_MAP_WIDTH%20%3D%2016%20and%20MAX_MAP_HEIGHT%20%3D%205%20(or%2032x32%20for%20extra%20headroom)%20with%20dynamic%20map_width%20and%20map_height%20variables%20so%20both%203x3%20and%2016x5%20work%20seamlessly%3F) 
+sure
+[Quote](textBlock;label:Quote:File%20Paths%3A%20Would%20you%20like%20generateMapFromSprite%20to%20automatically%20prepend%20%22sprites%2F%22%20if%20not%20already%20present%3F) 
+sure
+
+Otherwise, proceed. Leave my exisiting 3x3 map configuration commented out.
