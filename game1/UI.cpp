@@ -23,7 +23,7 @@ UI::UI() {
         LM.writeLog("UI: setSprite SUCCESS");
     }
 
-    setPosition(df::Vector(40, 20.5));
+    setPosition(df::Vector(40, 21.5));
 
     m_hero_pos = df::Vector(0, 0);
     m_map_sprite_label = "map-3x3";
@@ -36,26 +36,26 @@ int UI::draw() {
 
     // HP
     DM.drawString(
-        df::Vector(5, 20),
+        df::Vector(5, 21),
         std::to_string(m_hp),
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 21),
+        df::Vector(5, 22),
         "---",
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 22),
+        df::Vector(5, 23),
         std::to_string(m_max_hp),
         df::CENTER_JUSTIFIED,
         df::RED
     );
 
     // Log
-    for (int i = 0; i < static_cast<int>(m_log.size()) && i < 3; i++) {
+    for (int i = 0; i < static_cast<int>(m_log.size()) && i < 5; i++) {
         DM.drawString(
             df::Vector(10, 20 + i),
             m_log[i],
@@ -116,8 +116,8 @@ void UI::addLogMessage(std::string message) {
     // Adds newest log message to the front
     m_log.insert(m_log.begin(), message);
 
-    // Keeps only the 3 most recent messages
-    if (m_log.size() > 3) {
+    // Keeps only the 5 most recent messages
+    if (m_log.size() > 5) {
         m_log.pop_back();
     }
 }

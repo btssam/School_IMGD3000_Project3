@@ -1,13 +1,15 @@
 <HEADER>
 frames 1
 width 80
-height 6
+height 8
 color white
 slowdown 0
 </HEADER>
 <BODY>
  +----------------------------------------------------------------------------+ 
  |  HP  |        LOG         |MAP                                             | 
+ |      |                    |                                                | 
+ |      |                    |                                                | 
  |      |                    |                                                | 
  |      |                    |                                                | 
  |      |                    |                                                | 
