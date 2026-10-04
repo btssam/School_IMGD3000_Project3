@@ -106,8 +106,8 @@ void Hero::move_up(){
     }
 
     if (isFacingWall) {
-        p_ui->addLogMessage("I hit a WALL. Ow!");
         take_damage(1);
+        p_ui->addLogMessage("I hit a WALL. Ow!");
         return;
     }
 
@@ -232,7 +232,7 @@ void Hero::take_damage(int amount){
         p_ui->addLogMessage("I am dead!");
         WM.markForDelete(this);
     }
-    p_ui->addLogMessage("I took " + std::to_string(amount) + " damage!");
+    p_ui->addLogMessage("I take " + std::to_string(amount) + " damage!");
     DM.shake(4, 4, 8);
 }
 
@@ -253,6 +253,7 @@ void Hero::checkCombat() {
     if (p_current_room->getHasEnemy()){
         isFighting = true;
         new Enemy();
+        //maybe a brief intro or message with a pause to give a chance for the player to get ready
         p_ui->addLogMessage("A Clayhead appears!");
         p_ui->addLogMessage("FIGHT!");
         

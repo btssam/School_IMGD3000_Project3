@@ -51,6 +51,7 @@ void loadResources(void) {
     //minimap
     RM.loadSprite("sprites/map_1_3x3.txt", "map-3x3");
     RM.loadSprite("sprites/map_1_8x5.txt", "map-8x5");
+    RM.loadSprite("sprites/map_1_8x16.txt", "map-8x16");
 
     //wall sprites
     RM.loadSprite("sprites/wall_1.txt", "wall-1");

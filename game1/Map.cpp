@@ -13,7 +13,7 @@
 Map::Map(){
     setType("Map");
     //position on screen: center of the 80x18 area above UI
-    setPosition(df::Vector(40, 8.5));
+    setPosition(df::Vector(40.5, 8.5));
 
     map_width = 0;
     map_height = 0;
@@ -28,9 +28,13 @@ Map::Map(){
 
     // generateMapFromSprite("sprites/map_1_3x3.txt");
     generateMapFromSprite("sprites/map_1_8x5.txt");
+    generateMapFromSprite("sprites/map_1_8x16.txt");
 
     //Put specific objects/enemies interactables here
-    grid[2][0].setHasEnemy(true);
+    grid[8][0].setHasEnemy(true);
+    grid[3][2].setHasEnemy(true);
+    grid[9][3].setHasEnemy(true);
+    grid[13][3].setHasEnemy(true);
 }
 
 Map::~Map(){

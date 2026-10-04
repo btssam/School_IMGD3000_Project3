@@ -10,8 +10,8 @@
 UI::UI() {
     setType("UI");
 
-    m_hp = 100;
-    m_max_hp = 100;
+    m_max_hp = 400;
+    m_hp = m_max_hp;
     m_log.clear();
 
     int result = setSprite("ui");
@@ -23,11 +23,12 @@ UI::UI() {
         LM.writeLog("UI: setSprite SUCCESS");
     }
 
-    setPosition(df::Vector(40, 21.5));
+    setPosition(df::Vector(40.5, 21.5));
 
     m_hero_pos = df::Vector(0, 0);
     // m_map_sprite_label = "map-3x3";
-    m_map_sprite_label = "map-8x5";
+    // m_map_sprite_label = "map-8x5";
+    m_map_sprite_label = "map-8x16";
 
     UI::addLogMessage("Find the CLAY POOL!");
 }
@@ -37,28 +38,28 @@ int UI::draw() {
 
     // HP
     DM.drawString(
-        df::Vector(5, 21),
+        df::Vector(4.5, 20),
         std::to_string(m_hp),
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 22),
+        df::Vector(4.5, 21.5),
         "---",
         df::CENTER_JUSTIFIED,
         df::RED
     );
     DM.drawString(
-        df::Vector(5, 23),
+        df::Vector(4.5, 23),
         std::to_string(m_max_hp),
         df::CENTER_JUSTIFIED,
         df::RED
     );
 
     // Log
-    for (int i = 0; i < static_cast<int>(m_log.size()) && i < 5; i++) {
+    for (int i = 0; i < static_cast<int>(m_log.size()) && i < 6; i++) {
         DM.drawString(
-            df::Vector(10, 20 + i),
+            df::Vector(9.5, 19 + i),
             m_log[i],
             df::LEFT_JUSTIFIED,
             df::WHITE
@@ -68,7 +69,7 @@ int UI::draw() {
     //minimap
     df::Sprite* p_map_spr = RM.getSprite(m_map_sprite_label);
     if (p_map_spr != nullptr){
-        df::Vector minimap_center(54, 21.5);
+        df::Vector minimap_center(54.5, 21.25);
 
         //draw the base minimap sprite
         p_map_spr->draw(0, minimap_center, ' ');
@@ -117,8 +118,8 @@ void UI::addLogMessage(std::string message) {
     // Adds newest log message to the front
     m_log.insert(m_log.begin(), message);
 
-    // Keeps only the 5 most recent messages
-    if (m_log.size() > 5) {
+    // Keeps only the 6 most recent messages
+    if (m_log.size() > 6) {
         m_log.pop_back();
     }
 }
