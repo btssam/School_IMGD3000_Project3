@@ -26,73 +26,8 @@ Map::Map(){
         }
     }
 
-    //generate map based on sprite
-    generateMapFromSprite("sprites/map_1_3x3.txt");
-
-    //configure room sprite and walls manually
-    //[0][0] is top left. [0][1] is one down from [0][0], etc. [1][0] is one right from [0][0], etc.
-    //make sure hallways are connected via the same sprite (e.g if south of [0][0] is hallway-1, north of [0][1] is also hallway-1). so that if u turn around, it's the same hallway you saw on the way there. walls are less important
-    //walls and hallway sprites are from 1 to 4
-    //the order might seem kind of weird, but I have to keep in mind adjacent hallways, so Im just kind of tracing through the map in a way that makes sense to me.
-    //for now, Im just incrementing the wall/hallway numbers whenever I want a new one
-
-    /*
-    //starting position
-    grid[0][0].setWalls(true, true, false, true);
-    grid[0][0].setNorthSpriteString("wall-1");
-    grid[0][0].setEastSpriteString("wall-2");
-    grid[0][0].setSouthSpriteString("hallway-1");
-    grid[0][0].setWestSpriteString("wall-3");
-
-    grid[0][1].setWalls(false, true, false, true);
-    grid[0][1].setNorthSpriteString("hallway-1");
-    grid[0][1].setEastSpriteString("wall-4");
-    grid[0][1].setSouthSpriteString("hallway-2");
-    grid[0][1].setWestSpriteString("wall-1");
-
-    grid[0][2].setWalls(false, false, true, true);
-    grid[0][2].setNorthSpriteString("hallway-2");
-    grid[0][2].setEastSpriteString("hallway-3");
-    grid[0][2].setSouthSpriteString("wall-2");
-    grid[0][2].setWestSpriteString("wall-4");
-
-    grid[1][2].setWalls(true, false, true, false);
-    grid[1][2].setNorthSpriteString("wall-3");
-    grid[1][2].setEastSpriteString("hallway-4");
-    grid[1][2].setSouthSpriteString("wall-1");
-    grid[1][2].setWestSpriteString("hallway-3");
-
-    grid[2][2].setWalls(false, true, true, false);
-    grid[2][2].setNorthSpriteString("hallway-1");
-    grid[2][2].setEastSpriteString("wall-2");
-    grid[2][2].setSouthSpriteString("wall-3");
-    grid[2][2].setWestSpriteString("hallway-4");
-
-    grid[2][1].setWalls(true, true, false, false);
-    grid[2][1].setNorthSpriteString("wall-4");
-    grid[2][1].setEastSpriteString("wall-1");
-    grid[2][1].setSouthSpriteString("hallway-1");
-    grid[2][1].setWestSpriteString("hallway-2");
-
-    grid[1][1].setWalls(false, false, true, true);
-    grid[1][1].setNorthSpriteString("hallway-3");
-    grid[1][1].setEastSpriteString("hallway-2");
-    grid[1][1].setSouthSpriteString("wall-2");
-    grid[1][1].setWestSpriteString("wall-3");
-
-    grid[1][0].setWalls(true, false, false, true);
-    grid[1][0].setNorthSpriteString("wall-4");
-    grid[1][0].setEastSpriteString("hallway-4");
-    grid[1][0].setSouthSpriteString("hallway-3");
-    grid[1][0].setWestSpriteString("wall-1");
-
-    //ending position
-    grid[2][0].setWalls(true, true, true, false);
-    grid[2][0].setNorthSpriteString("wall-2");
-    grid[2][0].setEastSpriteString("wall-3");
-    grid[2][0].setSouthSpriteString("wall-4");
-    grid[2][0].setWestSpriteString("hallway-4");
-    */
+    // generateMapFromSprite("sprites/map_1_3x3.txt");
+    generateMapFromSprite("sprites/map_1_8x5.txt");
 
     //Put specific objects/enemies interactables here
     grid[2][0].setHasEnemy(true);
@@ -307,9 +242,37 @@ void Map::generateMapFromSprite(std::string spriteName) {
                 p_room->setSouthSpriteString("wall-" + std::to_string(wall_counter));
                 wall_counter = (wall_counter % 4) + 1;
             } else {
-                // New hallway connection leading South
-                p_room->setSouthSpriteString("hallway-" + std::to_string(hallway_counter));
-                hallway_counter = (hallway_counter % 4) + 1;
+                // New hallway connection leading South (connecting grid[x][y] and grid[x][y+1]).
+                // To avoid visual confusion when turning in a room or moving forward down a corridor,
+                // collect all hallway sprites already assigned to adjacent exits touching this passage.
+                std::vector<std::string> avoid;
+                if (!p_room->getIsNorthWall()) avoid.push_back(p_room->getNorthSprite());
+                if (!p_room->getIsWestWall())  avoid.push_back(p_room->getWestSprite());
+                // Avoid the West exit of the room below us if it was already assigned
+                if (y + 1 < map_height && x > 0 && !grid[x][y + 1].getIsWestWall()) {
+                    avoid.push_back(grid[x - 1][y + 1].getEastSprite());
+                }
+
+                // Pick the next candidate number (1 to 4) cycling from hallway_counter that has no conflicts
+                int chosen = hallway_counter;
+                for (int i = 0; i < 4; i++) {
+                    int candidate = ((hallway_counter - 1 + i) % 4) + 1;
+                    std::string cand_str = "hallway-" + std::to_string(candidate);
+                    bool conflict = false;
+                    for (size_t k = 0; k < avoid.size(); k++) {
+                        if (avoid[k] == cand_str) {
+                            conflict = true;
+                            break;
+                        }
+                    }
+                    if (!conflict) {
+                        chosen = candidate;
+                        break;
+                    }
+                }
+
+                p_room->setSouthSpriteString("hallway-" + std::to_string(chosen));
+                hallway_counter = (chosen % 4) + 1;
             }
 
             // 4. EAST
@@ -317,9 +280,39 @@ void Map::generateMapFromSprite(std::string spriteName) {
                 p_room->setEastSpriteString("wall-" + std::to_string(wall_counter));
                 wall_counter = (wall_counter % 4) + 1;
             } else {
-                // New hallway connection leading East
-                p_room->setEastSpriteString("hallway-" + std::to_string(hallway_counter));
-                hallway_counter = (hallway_counter % 4) + 1;
+                // New hallway connection leading East (connecting grid[x][y] and grid[x+1][y]).
+                // Avoid hallway sprites from any open exits touching this passage:
+                // - Current room's North, West, and South exits
+                // - Destination room's North exit (from the room above it)
+                std::vector<std::string> avoid;
+                if (!p_room->getIsNorthWall()) avoid.push_back(p_room->getNorthSprite());
+                if (!p_room->getIsWestWall())  avoid.push_back(p_room->getWestSprite());
+                if (!p_room->getIsSouthWall()) avoid.push_back(p_room->getSouthSprite());
+                // Avoid the North exit of the room to our right if it was already assigned
+                if (x + 1 < map_width && y > 0 && !grid[x + 1][y].getIsNorthWall()) {
+                    avoid.push_back(grid[x + 1][y - 1].getSouthSprite());
+                }
+
+                // Pick the next candidate number (1 to 4) cycling from hallway_counter that has no conflicts
+                int chosen = hallway_counter;
+                for (int i = 0; i < 4; i++) {
+                    int candidate = ((hallway_counter - 1 + i) % 4) + 1;
+                    std::string cand_str = "hallway-" + std::to_string(candidate);
+                    bool conflict = false;
+                    for (size_t k = 0; k < avoid.size(); k++) {
+                        if (avoid[k] == cand_str) {
+                            conflict = true;
+                            break;
+                        }
+                    }
+                    if (!conflict) {
+                        chosen = candidate;
+                        break;
+                    }
+                }
+
+                p_room->setEastSpriteString("hallway-" + std::to_string(chosen));
+                hallway_counter = (chosen % 4) + 1;
             }
         }
     }

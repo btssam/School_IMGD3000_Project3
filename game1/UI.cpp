@@ -26,7 +26,8 @@ UI::UI() {
     setPosition(df::Vector(40, 21.5));
 
     m_hero_pos = df::Vector(0, 0);
-    m_map_sprite_label = "map-3x3";
+    // m_map_sprite_label = "map-3x3";
+    m_map_sprite_label = "map-8x5";
 
     UI::addLogMessage("Find the CLAY POOL!");
 }
@@ -67,7 +68,7 @@ int UI::draw() {
     //minimap
     df::Sprite* p_map_spr = RM.getSprite(m_map_sprite_label);
     if (p_map_spr != nullptr){
-        df::Vector minimap_center(54, 20.5);
+        df::Vector minimap_center(54, 21.5);
 
         //draw the base minimap sprite
         p_map_spr->draw(0, minimap_center, ' ');

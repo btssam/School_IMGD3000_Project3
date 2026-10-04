@@ -83,3 +83,26 @@ sure
 sure
 
 Otherwise, proceed. Leave my exisiting 3x3 map configuration commented out.
+
+==============================================================
+Prompt 3:
+Overall, great work.
+
+Are there any alterations that can be made to the hallway counter to make sure that a given room doesnt have the same hallways in a particular direction:
+example:
+at grid[2][3] both the north and west hallways have the exact same sprite: I cant tell that im turing from north to west visually because its the same sprite.
+
+Additonally sometimes, adjacent hallways of the same directtion are exactly the same:
+example:
+grid[7][3] (the one north of the bottom right corner)
+The north hallway sprite is the same as grid[7][2], so as I move forward I see nothing change visually.
+Same occurance at:
+grid[3][1] and grid[3][2], they have the same south sprite.
+Same occurance at :
+grid[6][1] and grid[6][2], same south sprites
+
+Not sure the best way to do this algorithmically, maybe another pass after generation is complete to confirm these desires (no same hallways from a given room in all 4 directions and no same hallways as the one in that direction) that will regnerate until happy? 
+
+==============================================================
+Prompt 4:
+Give me an eactual implementation plan - I'd like too keep as much existing code as possible and change as little as possible, though your algorithm seems solid
