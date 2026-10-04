@@ -9,3 +9,5 @@ Directories:
 |---game1 #our game. project3
 
 |---notes #notes, docs, etc.
+
+|---submissions #subimssions: duplicated contents of game1 with added readme, videolink, etc.

@@ -4,3 +4,13 @@ AI_WRITEUP.txt
 AI was used sparingly for this project. It was used to help build the cross-platform compatible makefile. This added a layer of conveinence. The Dragonfly makefile could have been used as a reference on how to make a makefile that works on multiple platforms, but this would requires commmenting and uncommenting code when managing our makefile through git and would quickly become burdensom. This seemed like a valuable use of AI - to help with a relatively simple task that required technical knowledge on Makefiles and platform compatibility that was outside of the scope of this course.
 
 Ben Samara ran this prompt using the coding agent, Antigravity, which had access to project files.
+
+Files affected:
+Makefile
+
+Verification:
+Ran it on both Austin and Ben's computer
+
+==============================================================
+Other:
+AI was not used for any testing functions or other coding
