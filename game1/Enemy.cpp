@@ -1,10 +1,11 @@
-#include "Enemy.h"
-
+//System includes
+#include <cstdlib>
+//Engine includes
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "EventStep.h"
-
-#include <cstdlib>
+//Game includes
+#include "Enemy.h"
 
 Enemy::Enemy() {
     setType("enemy");
@@ -17,11 +18,12 @@ Enemy::Enemy() {
 
     m_flash_slowdown = 4;
     m_flash_counter = 0;
-    m_flash = 0;
 
     registerInterest(df::STEP_EVENT);
 
     setPosition(df::Vector(40, 10));
+
+    setAltitude(5);
 }
 
 Enemy::~Enemy() {
@@ -37,12 +39,6 @@ int Enemy::eventHandler(const df::Event* p_e) {
                 setSprite("enemy"); // Revert back to normal when counter reaches 0
             }
         }
-
-
-        // if (m_flash > 0) {
-        //     setSprite("enemy");
-        //     m_flash = 0;
-        // }
 
         move();
 
@@ -105,5 +101,4 @@ int Enemy::getHP() const {
 void Enemy::flash() {
     setSprite("enemy-hit");
     m_flash_counter = m_flash_slowdown;
-    // m_flash = 1;
 }

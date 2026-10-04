@@ -1,14 +1,14 @@
-#include "Reticle.h"
-#include "UI.h"
-#include "Enemy.h"
-
+// System includes
+#include <string>
+//Engine includes
 #include "DisplayManager.h"
 #include "WorldManager.h"
 #include "EventMouse.h"
 #include "ObjectList.h"
-
-#include <string>
-
+//Game includes
+#include "Reticle.h"
+#include "UI.h"
+#include "Enemy.h"
 
 //should probably be removed when not fighting an enemy
 Reticle::Reticle() {
@@ -64,6 +64,7 @@ int Reticle::eventHandler(const df::Event* p_e) {
                             dynamic_cast<Enemy*>(p_object);
 
                         if (p_enemy != nullptr) {
+                            //might want an enemy take damage function to allow different values
                             p_enemy->setHP(p_enemy->getHP() - 5);
                             p_enemy->flash();
 
@@ -94,14 +95,11 @@ int Reticle::eventHandler(const df::Event* p_e) {
                                 WM.markForDelete(p_enemy);
                             }
                         }
-
                         return 1;
                     }
                 }
-
                 return 1;
             }
         }
-
     return 0;
 }

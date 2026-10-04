@@ -1,16 +1,16 @@
-#ifndef RETICLE_H
-#define RETICLE_H
+//A cursor like object that is currently only used when fighting
+#pragma once
 
+// Engine includes
 #include "Object.h"
-
-#define RETICLE_CHAR '+'
 
 class Reticle : public df::Object {
     public:
+        //constructor
         Reticle();
 
+        //draw override
         int draw() override;
+        //event handler override
         int eventHandler(const df::Event* p_e) override;
 };
-
-#endif

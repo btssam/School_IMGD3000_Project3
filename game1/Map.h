@@ -2,8 +2,10 @@
 //also handles the visual generation of the current room (the sprite)
 #pragma once
 
-#include "Room.h"
+// Engine includes
 #include "Object.h"
+// Game includes
+#include "Room.h"
 
 const int MAP_WIDTH = 3;
 const int MAP_HEIGHT = 3;

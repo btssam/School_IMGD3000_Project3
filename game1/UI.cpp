@@ -1,9 +1,11 @@
-#include "UI.h"
+//System includes
+#include <string>
+//Engine includes
 #include "DisplayManager.h"
 #include "LogManager.h"
-#include <string>
-
 #include "ResourceManager.h"
+//Game includes
+#include "UI.h"
 
 UI::UI() {
     setType("UI");
@@ -52,7 +54,6 @@ int UI::draw() {
         df::RED
     );
 
-
     // Log
     for (int i = 0; i < static_cast<int>(m_log.size()) && i < 3; i++) {
         DM.drawString(
@@ -99,7 +100,6 @@ int UI::draw() {
         }
 
     }
-
 
     return result;
 }

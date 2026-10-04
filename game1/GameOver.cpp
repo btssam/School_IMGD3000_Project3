@@ -1,10 +1,10 @@
-#include "GameOver.h"
+//Engine includes
 #include "EventStep.h"
 #include "WorldManager.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
-// #include "GameStart.h"
-
+//Game includes
+#include "GameOver.h"
 
 GameOver::GameOver(){
     setType("GameOver");
@@ -17,10 +17,13 @@ GameOver::GameOver(){
     setLocation(df::CENTER_CENTER);
     registerInterest(df::STEP_EVENT);
 
+    // Remove reticle immediately so combat stops
+    df::ObjectList reticles = WM.objectsOfType("Reticle");
+    for (int i = 0; i < reticles.getCount(); i++) {
+        df::Object* p_reticle = reticles[i];
+        WM.markForDelete(p_reticle);
+    }
 
-    // df::Sound *p_sound = RM.getSound("game over");
-    // if (p_sound)
-    //     p_sound->play();
 }
 
 GameOver::~GameOver(){
@@ -30,6 +33,7 @@ GameOver::~GameOver(){
         df::Object *p_o = object_list[i];
         if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle")
             WM.markForDelete(p_o);
+        //to be implemented later, making it restart to the start screen instead of just quitting:
         // if (p_o->getType() == "GameStart"){
         //     p_o->setActive(true);
         //     dynamic_cast <GameStart *> (p_o)->playMusic(); //resume start music

@@ -1,16 +1,15 @@
-//Hero is not actual drawn on screen, as its first person. Just tracks hero info and hanldes hero behaviors
+//Hero is not actual drawn on screen, as its first person.
+//Just tracks hero info and hanldes hero behaviors
 #pragma once
 
+// Engine includes
 #include "Object.h"
 #include "EventKeyboard.h"
 #include "Vector.h"
-// #include "EventMouse.h"
-// #include "Reticle.h"
-
+// Game includes
 #include "Room.h"
 #include "UI.h"
 #include "Map.h"
-
 
 class Hero : public df::Object {
     private:
@@ -26,8 +25,6 @@ class Hero : public df::Object {
         void step();
         //lowers hp and handles related functinality
         void take_damage(int amount);
-        // //use reticle to attack if facing an enemy
-        // void attack();
 
         //pointer to UI
         UI* p_ui;
@@ -52,11 +49,6 @@ class Hero : public df::Object {
         bool isFighting;
         void checkCombat();
 
-        // int fire_slowdown;  //delay input when fighting (maybe not needed)
-        // int fire_countdown;
-        // void fire(df::Vector target);
-        // void mouse(const df::EventMouse *p_mouse_event);
-        // Reticle *p_reticle; //probably want a reticle for fighting
     public:
         Hero(UI* p_ui, Map* p_map);
         ~Hero();

@@ -1,3 +1,4 @@
+//Game includes
 #include "Map.h"
 
 Map::Map(){
@@ -15,12 +16,12 @@ Map::Map(){
 
     //configure room sprite and walls manually
     //[0][0] is top left. [0][1] is one down from [0][0], etc. [1][0] is one right from [0][0], etc.
-    //make sure hallways are connected via the same sprite (e.g if south of [0][0] is hallway-1, north of [0][1] is also hallway-1). so that if u turn around, its the same hallway you saw on the way there. walls are less important
+    //make sure hallways are connected via the same sprite (e.g if south of [0][0] is hallway-1, north of [0][1] is also hallway-1). so that if u turn around, it's the same hallway you saw on the way there. walls are less important
     //walls and hallway sprites are from 1 to 4
     //the order might seem kind of weird, but I have to keep in mind adjacent hallways, so Im just kind of tracing through the map in a way that makes sense to me.
     //for now, Im just incrementing the wall/hallway numbers whenever I want a new one
 
-    //start
+    //starting position
     grid[0][0].setWalls(true, true, false, true);
     grid[0][0].setNorthSpriteString("wall-1");
     grid[0][0].setEastSpriteString("wall-2");
@@ -69,7 +70,7 @@ Map::Map(){
     grid[1][0].setSouthSpriteString("hallway-3");
     grid[1][0].setWestSpriteString("wall-1");
 
-    //end
+    //ending position
     grid[2][0].setWalls(true, true, true, false);
     grid[2][0].setNorthSpriteString("wall-2");
     grid[2][0].setEastSpriteString("wall-3");

@@ -1,9 +1,12 @@
-#ifndef UI_H
-#define UI_H
+#pragma once
+//handles all the UI elements, including the health bar, map, and log messages. not directly interactable, just drawn
 
-#include "Object.h"
+//System includes
 #include <string>
 #include <vector>
+
+//Engine includes
+#include "Object.h"
 #include "Vector.h"
 
 class UI : public df::Object {
@@ -29,5 +32,3 @@ class UI : public df::Object {
         void setHeroPosition(df:: Vector pos);
         void setMapSprite(std::string sprite_label);
 };
-
-#endif

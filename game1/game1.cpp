@@ -6,8 +6,7 @@
 #include "GameManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
-
-//game includes
+// Game includes
 #include "Hero.h"
 #include "Map.h"
 #include "UI.h"

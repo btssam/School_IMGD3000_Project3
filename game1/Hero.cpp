@@ -1,16 +1,16 @@
+//System includes
+#include <math.h>
+//Engine includes
+#include "LogManager.h"
+#include "WorldManager.h"
+#include "GameManager.h"
+#include "EventStep.h"
+#include "UI.h"
+#include "DisplayManager.h"
+//Game includes
 #include "Hero.h"
 #include "GameOver.h"
 #include "Enemy.h"
-
-#include "LogManager.h"
-#include "WorldManager.h"
-// #include "ResourceManager.h"
-#include "GameManager.h"
-#include "EventStep.h"
-// #include "EventView.h"
-#include "UI.h"
-#include <math.h>
-#include "DisplayManager.h"
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -19,7 +19,6 @@ Hero::Hero(UI* p_ui, Map* p_map) {
 
     registerInterest(df::KEYBOARD_EVENT);
     registerInterest(df::STEP_EVENT);
-    // registerInterest(df::MSE_EVENT);
     setType("Hero");
 
     isFacingWall = false;
@@ -33,24 +32,15 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     take_damage_slowdown = 60;
     take_damage_countdown = take_damage_slowdown;
 
-
     facingDirection = Direction::NORTH;
-
 
     p_map->updateView(gridPosition, facingDirection);
 
     p_ui->setHeroPosition(gridPosition);
-
-    // fire_slowdown = 15;
-    // fire_countdown = fire_slowdown;
-
-    // p_reticle = new Reticle();
-    // p_reticle->draw();
 }
 
 Hero::~Hero(){
-    new GameOver;
-    // WM.markForDelete(p_reticle);
+    new GameOver; //start a gameover when the hero is deleted (e.g. dies)
 }
 
 int Hero::eventHandler(const df::Event *p_e){
@@ -63,20 +53,12 @@ int Hero::eventHandler(const df::Event *p_e){
         step();
         return 1;
     }
-    // if (p_e->getType() == df::MSE_EVENT) { //will want this for attacking
-    //     const df::EventMouse *p_mouse_event = dynamic_cast <const df::EventMouse *> (p_e);
-
-    //     mouse(p_mouse_event);
-    //     return 1;
-
-    // }
     return 0;
 }
 
-//take action based on which key was pressed
 void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
     switch(p_keyboard_event->getKey()){
-        case df::Keyboard::Q: //quit
+        case df::Keyboard::Q: //quit. May want to expand this to go to a pause menu or main menu later
             if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
                 GM.setGameOver(true);
             break;
@@ -97,13 +79,6 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
             break;
         //consider adding back to move backwards?
 
-        // TEST to see if health decreases by pressing "h"
-        case df::Keyboard::H:
-            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-                take_damage(10);
-            }
-            break;
-
         //to silence warnings about not defining every single key
         default:
             break;
@@ -112,32 +87,34 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
 
 void Hero::move_up(){
     //check if allowed to move (e.g. fighting)
-    if (isFighting)
+    if (isFighting){
+        p_ui->addLogMessage("I can't run!");
         return;
+    }
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
     move_countdown = move_slowdown;
 
-    Room* p_current = p_map->getRoom(gridPosition.getX(), gridPosition.getY());
-    isFacingWall = false;
+    Room* p_current_room = p_map->getRoom(gridPosition.getX(), gridPosition.getY());
 
-    if (p_current != nullptr){
-        if (facingDirection == Direction::NORTH) isFacingWall = p_current->getIsNorthWall();
-        else if (facingDirection == Direction::EAST)  isFacingWall = p_current->getIsEastWall();
-        else if (facingDirection == Direction::SOUTH) isFacingWall = p_current->getIsSouthWall();
-        else if (facingDirection == Direction::WEST)  isFacingWall = p_current->getIsWestWall();
+    if (p_current_room != nullptr){
+        if (facingDirection == Direction::NORTH) isFacingWall = p_current_room->getIsNorthWall();
+        else if (facingDirection == Direction::EAST)  isFacingWall = p_current_room->getIsEastWall();
+        else if (facingDirection == Direction::SOUTH) isFacingWall = p_current_room->getIsSouthWall();
+        else if (facingDirection == Direction::WEST)  isFacingWall = p_current_room->getIsWestWall();
     }
 
     if (isFacingWall) {
         p_ui->addLogMessage("I hit a WALL. Ow!");
+        take_damage(1);
         return;
     }
 
     switch (facingDirection) {
     case Direction::NORTH:
         p_ui->addLogMessage("I move NORTH");
-        gridPosition.setY(gridPosition.getY() - 1); //might want a setter for this, to confirm if within map bounds
+        gridPosition.setY(gridPosition.getY() - 1);
         break;
     case Direction::EAST:
         p_ui->addLogMessage("I move EAST");
@@ -157,12 +134,12 @@ void Hero::move_up(){
     p_map->updateView(gridPosition, facingDirection);
 }
 
-
-
 void Hero::turn_left(){
     //check if allowed to move (e.g. fighting)
-    if (isFighting)
+    if (isFighting){
+        p_ui->addLogMessage("I can't run!");
         return;
+    }
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
@@ -187,17 +164,15 @@ void Hero::turn_left(){
     }
 
     p_map->updateView(gridPosition, facingDirection);
-
-
-    //update what character currently sees based on facing direction/current room
-
 }
 
 
 void Hero::turn_right(){
     //check if allowed to move (e.g. fighting)
-    if (isFighting)
+    if (isFighting){
+        p_ui->addLogMessage("I can't run!");
         return;
+    }
     //see if its time to move (check cooldown). throttles movement so its not too fast
     if (move_countdown > 0)
         return;
@@ -222,10 +197,6 @@ void Hero::turn_right(){
     }
 
     p_map->updateView(gridPosition, facingDirection);
-
-
-    //update what character currently sees based on facing direction/current room
-
 }
 
 void Hero::step(){
@@ -233,20 +204,22 @@ void Hero::step(){
     if (move_countdown < 0)
         move_countdown = 0;
 
+    //check if a combat is happening and start it if so
     checkCombat();
 
-    // Check if combat is over
     if (isFighting) {
         df::ObjectList enemies = WM.objectsOfType("enemy");
+        //periodically cause the enemy to damage the player
         take_damage_countdown--;
         if (take_damage_countdown < 0)
             take_damage_countdown = 0;
         
         if (take_damage_countdown == 0){
             take_damage(10);
+            p_ui->addLogMessage("Clayhead attacks!");
             take_damage_countdown = take_damage_slowdown;
         }
-            
+        
         if (enemies.getCount() == 0) {
             isFighting = false;
         }
@@ -255,12 +228,12 @@ void Hero::step(){
 
 void Hero::take_damage(int amount){
     p_ui->setHP(std::max(0, p_ui->getHP() - amount));
-    p_ui->addLogMessage("I took " + std::to_string(amount) + " damage!");
-    DM.shake(4, 4, 8);
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
         WM.markForDelete(this);
     }
+    p_ui->addLogMessage("I took " + std::to_string(amount) + " damage!");
+    DM.shake(4, 4, 8);
 }
 
 void Hero::checkCombat() {
@@ -268,22 +241,22 @@ void Hero::checkCombat() {
     if (isFighting)
         return;
 
-    // Gett room the Hero is in
-    Room* p_current = p_map->getRoom(
+    // Get room the Hero is in
+    Room* p_current_room = p_map->getRoom(
         gridPosition.getX(),
         gridPosition.getY()
     );
 
-    if (p_current == nullptr)
+    if (p_current_room == nullptr)
         return ;
 
-    if (p_current->getHasEnemy()){
+    if (p_current_room->getHasEnemy()){
         isFighting = true;
         new Enemy();
-        
-        //mark room as cleared
-        p_current->setHasEnemy(false);
         p_ui->addLogMessage("A Clayhead appears!");
         p_ui->addLogMessage("FIGHT!");
+        
+        //mark room as cleared as soon as fight starts, so that the player can't just leave and come back to fight the same enemy again (could also be handled at the end of a fight, but since theres no way of running, it doesnt matter)
+        p_current_room->setHasEnemy(false);
     }
 }
