@@ -29,6 +29,10 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     move_slowdown = 16;
     move_countdown = move_slowdown;
 
+    take_damage_slowdown = 60;
+    take_damage_countdown = take_damage_slowdown;
+
+
     facingDirection = Direction::NORTH;
 
 
@@ -233,7 +237,15 @@ void Hero::step(){
     // Check if combat is over
     if (isFighting) {
         df::ObjectList enemies = WM.objectsOfType("enemy");
-
+        take_damage_countdown--;
+        if (take_damage_countdown < 0)
+            take_damage_countdown = 0;
+        
+        if (take_damage_countdown == 0){
+            take_damage(10);
+            take_damage_countdown = take_damage_slowdown;
+        }
+            
         if (enemies.getCount() == 0) {
             isFighting = false;
         }
@@ -269,6 +281,6 @@ void Hero::checkCombat() {
     if (enemies.getCount() > 0) {
         isFighting = true;
 
-        p_ui->addLogMessage("A CLayhead blocks my path!");
+        p_ui->addLogMessage("A Clayhead appears!");
     }
 }

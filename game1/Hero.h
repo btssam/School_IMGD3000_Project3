@@ -43,6 +43,10 @@ class Hero : public df::Object {
         df::Vector gridPosition;
         //pointer to map;
         Map* p_map;
+        //counter for taking damage perioidically during a fight
+        int take_damage_slowdown;
+        //counter for taking damage delay;
+        int take_damage_countdown;
 
         //true if in a room with an enemy. disable movement and enable attack
         bool isFighting;

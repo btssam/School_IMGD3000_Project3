@@ -28,14 +28,14 @@ GameOver::~GameOver(){
     df::ObjectList object_list = WM.getAllObjects(true);
     for (int i = 0; i<object_list.getCount(); i++){
         df::Object *p_o = object_list[i];
-        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI")
+        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle")
             WM.markForDelete(p_o);
         // if (p_o->getType() == "GameStart"){
         //     p_o->setActive(true);
         //     dynamic_cast <GameStart *> (p_o)->playMusic(); //resume start music
         // }
-        GM.setGameOver(true); //reset game over state
     }
+    GM.setGameOver(true); //reset game over state
 }
 
 int GameOver::eventHandler(const df::Event *p_e){

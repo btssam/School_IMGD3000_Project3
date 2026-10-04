@@ -9,6 +9,8 @@
 
 #include <string>
 
+
+//should probably be removed when not fighting an enemy
 Reticle::Reticle() {
     setType("Reticle");
 
@@ -72,7 +74,7 @@ int Reticle::eventHandler(const df::Event* p_e) {
 
                                 if (p_ui != nullptr) {
                                     p_ui->addLogMessage(
-                                        "Clayhead hit! HP = " + std::to_string(p_enemy->getHP())
+                                        "Clayhead hit! HP:" + std::to_string(p_enemy->getHP())
                                     );
                                 }
                             }

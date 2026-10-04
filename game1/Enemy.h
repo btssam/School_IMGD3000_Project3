@@ -10,6 +10,8 @@ class Enemy : public df::Object {
         int m_moveCooldown;
         int m_move_countdown;
         int m_flash;
+        int m_flash_slowdown;
+        int m_flash_counter;
 
         void move();
 

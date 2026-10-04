@@ -77,6 +77,7 @@ void populateWorld(void) {
     // populate UI
     UI* p_ui = new UI();
 
+    //currently just spawns reticle and enemy right away, will want to add some logic actually have enemies positioned on the map
     // populate reticle
     new Reticle();
 
@@ -87,6 +88,4 @@ void populateWorld(void) {
 
     // populate enemy
     new Enemy();
-
-    GM.run();
 }
