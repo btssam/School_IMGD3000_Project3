@@ -1,5 +1,6 @@
 #include "Hero.h"
 #include "GameOver.h"
+#include "Enemy.h"
 
 #include "LogManager.h"
 #include "WorldManager.h"
@@ -276,11 +277,13 @@ void Hero::checkCombat() {
     if (p_current == nullptr)
         return ;
 
-    df::ObjectList enemies = WM.objectsOfType("enemy");
-
-    if (enemies.getCount() > 0) {
+    if (p_current->getHasEnemy()){
         isFighting = true;
-
+        new Enemy();
+        
+        //mark room as cleared
+        p_current->setHasEnemy(false);
         p_ui->addLogMessage("A Clayhead appears!");
+        p_ui->addLogMessage("FIGHT!");
     }
 }

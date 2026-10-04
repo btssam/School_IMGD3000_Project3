@@ -27,6 +27,8 @@ class Room {
         std::string southSprite;
         std::string westSprite;
 
+        bool hasEnemy;
+
         // Optional attributes:
         // std::string m_description;
         // bool m_has_enemy;
@@ -55,4 +57,7 @@ class Room {
         std::string getEastSprite() const;
         std::string getSouthSprite() const;
         std::string getWestSprite() const;
+        //getter and setter for hasEnemy
+        void setHasEnemy(bool enemy);
+        bool getHasEnemy();
 };

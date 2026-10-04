@@ -19,6 +19,8 @@ Map::Map(){
     //walls and hallway sprites are from 1 to 4
     //the order might seem kind of weird, but I have to keep in mind adjacent hallways, so Im just kind of tracing through the map in a way that makes sense to me.
     //for now, Im just incrementing the wall/hallway numbers whenever I want a new one
+
+    //start
     grid[0][0].setWalls(true, true, false, true);
     grid[0][0].setNorthSpriteString("wall-1");
     grid[0][0].setEastSpriteString("wall-2");
@@ -67,11 +69,15 @@ Map::Map(){
     grid[1][0].setSouthSpriteString("hallway-3");
     grid[1][0].setWestSpriteString("wall-1");
 
+    //end
     grid[2][0].setWalls(true, true, true, false);
     grid[2][0].setNorthSpriteString("wall-2");
     grid[2][0].setEastSpriteString("wall-3");
     grid[2][0].setSouthSpriteString("wall-4");
     grid[2][0].setWestSpriteString("hallway-4");
+
+    //Put specific objects/enemies interactables here
+    grid[2][0].setHasEnemy(true);
 }
 
 Map::~Map(){

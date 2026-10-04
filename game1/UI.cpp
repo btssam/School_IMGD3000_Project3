@@ -25,6 +25,8 @@ UI::UI() {
 
     m_hero_pos = df::Vector(0, 0);
     m_map_sprite_label = "map-3x3";
+
+    UI::addLogMessage("Find the CLAY POOL!");
 }
 
 int UI::draw() {

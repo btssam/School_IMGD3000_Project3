@@ -87,5 +87,5 @@ void populateWorld(void) {
     new Hero(p_ui, p_map);
 
     // populate enemy
-    new Enemy();
+    // new Enemy();
 }

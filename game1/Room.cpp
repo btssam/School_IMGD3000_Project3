@@ -12,6 +12,8 @@ Room::Room(){
     southSprite = "";
     westSprite = "";
 
+    hasEnemy = false;
+
     gridPosition = df::Vector(0, 0);
 }
 
@@ -33,6 +35,8 @@ void Room::setWestSpriteString(std::string sprite)  { westSprite = sprite; }
 
 void Room::setGridPosition(df::Vector pos) { gridPosition = pos; }
 
+void Room::setHasEnemy(bool enemy) {hasEnemy = enemy;}
+
 // Getters
 bool Room::getIsNorthWall() const { return isWallNorth; }
 
@@ -49,3 +53,5 @@ std::string Room::getEastSprite() const  { return eastSprite; }
 std::string Room::getSouthSprite() const { return southSprite; }
 
 std::string Room::getWestSprite() const  { return westSprite; }
+
+bool Room::getHasEnemy() {return hasEnemy;}
