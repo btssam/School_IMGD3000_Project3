@@ -57,7 +57,7 @@ Map::Map(){
     grid[9][1].setClueWall(Direction::NORTH);
     grid[13][1].setHasClue(true);
     grid[13][1].setClueSprite("clue-7");
-    grid[13][1].setClueWall(Direction::EAST);
+    grid[13][1].setClueWall(Direction::WEST);
     // Room with color clue
     grid[11][1].setHasColorClue(true);
     grid[11][1].setColorClueWall(Direction::SOUTH);

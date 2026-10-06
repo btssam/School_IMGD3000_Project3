@@ -1,22 +1,22 @@
 <HEADER>
 frames 1
-width 5
+width 9
 height 10
 color green
 slowdown 0
 transparency #
 </HEADER>
 <BODY>
-#222#
-2###2
-####2
-####2
-###2#
-##2##
-#2###
-2####
-2####
-22222
+# 2 2 2 #
+2#######2
+########2
+########2
+######2##
+####2####
+##2######
+2########
+2########
+2 2 2 2 2
 end
 </BODY>
 <FOOTER>
