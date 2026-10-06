@@ -3,6 +3,7 @@
 //Engine includes
 #include "LogManager.h"
 #include "WorldManager.h"
+#include "ResourceManager.h"
 #include "GameManager.h"
 #include "EventStep.h"
 #include "UI.h"
@@ -147,6 +148,11 @@ void Hero::move_up(){
     updateClues();
     updateColorClues();
     updateKeypads();
+
+    //add sound
+    df::Sound* p_sound = RM.getSound("step");
+    if (p_sound != nullptr)
+        p_sound->play();
 }
 
 void Hero::turn_left(){
@@ -183,6 +189,11 @@ void Hero::turn_left(){
     updateClues();
     updateColorClues();
     updateKeypads();
+
+    //add sound
+    df::Sound* p_sound = RM.getSound("turn");
+    if (p_sound != nullptr)
+        p_sound->play();
 }
 
 
@@ -220,6 +231,11 @@ void Hero::turn_right(){
     updateClues();
     updateColorClues();
     updateKeypads();
+
+    //add sound
+    df::Sound* p_sound = RM.getSound("turn");
+    if (p_sound != nullptr)
+        p_sound->play();
 }
 
 void Hero::step(){
@@ -251,6 +267,12 @@ void Hero::step(){
 
 void Hero::take_damage(int amount){
     p_ui->setHP(std::max(0, p_ui->getHP() - amount));
+
+    //add sound
+    df::Sound* p_sound = RM.getSound("hurt");
+    if (p_sound != nullptr)
+        p_sound->play();
+
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
         new GameOver;
@@ -380,4 +402,8 @@ void Hero::updateKeypads() {
             p_keypad->updateVisibility(gridPosition, facingDirection);
         }
     }
+}
+
+bool Hero::getIsFighting() const {
+    return isFighting;
 }

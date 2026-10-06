@@ -87,6 +87,31 @@ void loadResources(void) {
     //keypad sprites
     RM.loadSprite("sprites/keypad_base.txt", "keypad_base");
     RM.loadSprite("sprites/keypad_button.txt", "keypad_button");
+
+    //player hurt sound
+    RM.loadSound("audio/hurt.wav", "hurt");
+    //player turn sound
+    RM.loadSound("audio/turn.wav", "turn");
+    //player step sound
+    RM.loadSound("audio/step.wav", "step");
+    //player click sound
+    RM.loadSound("audio/sword.wav", "sword");
+    //enemy damage sound
+    RM.loadSound("audio/enemy-damage.wav", "enemy-damage");
+    //enemy death sound
+    RM.loadSound("audio/enemy-death.wav", "enemy-death");
+    //boss damage sound
+    RM.loadSound("audio/boss-damage.wav", "boss-damage");
+    //boss death sound
+    RM.loadSound("audio/boss-death.wav", "boss-death");
+    //drink fountain sound
+    RM.loadSound("audio/drink.wav", "drink");
+    //press keypad sound
+    RM.loadSound("audio/keypad.wav", "keypad");
+    //keypad correct code sound
+    RM.loadSound("audio/keypad-correct.wav", "keypad-correct");
+    //keypad incorrect code sound
+    RM.loadSound("audio/keypad-incorrect.wav", "keypad-incorrect");
 }
 
 void populateWorld(void) {

@@ -1,5 +1,6 @@
 #include "DisplayManager.h"
 #include "WorldManager.h"
+#include "ResourceManager.h"
 
 #include "Keypad.h"
 #include "Map.h"
@@ -97,10 +98,21 @@ void Keypad::handleButtonPress(std::string label){
         return;
     }
     if (label == "CLEAR"){
+        //add sound
+        df::Sound* p_sound = RM.getSound("keypad");
+        if (p_sound != nullptr)
+            p_sound->play();
+
         m_entered_code.clear();
+
     } else if (label == "ENTER"){
         if (m_entered_code == "9627"){
             m_is_solved = true;
+
+            //add sound
+            df::Sound* p_sound = RM.getSound("keypad-correct");
+            if (p_sound != nullptr)
+                p_sound->play();
 
             df::WorldManager* p_wm = &df::WorldManager::getInstance();
             df::ObjectList maps = p_wm->objectsOfType("Map");
@@ -136,6 +148,11 @@ void Keypad::handleButtonPress(std::string label){
             }
 
         } else {
+            //add sound
+            df::Sound* p_sound = RM.getSound("keypad-incorrect");
+            if (p_sound != nullptr)
+                p_sound->play();
+
             m_entered_code.clear();
         }
     } else {

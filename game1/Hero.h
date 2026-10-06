@@ -62,4 +62,6 @@ class Hero : public df::Object {
         Hero(UI* p_ui, Map* p_map);
         ~Hero();
         int eventHandler(const df::Event *p_e) override;
+
+        bool getIsFighting() const;
 };

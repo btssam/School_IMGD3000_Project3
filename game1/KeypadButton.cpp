@@ -1,4 +1,5 @@
 #include "DisplayManager.h"
+#include "ResourceManager.h"
 
 #include "Keypad.h"
 #include "KeypadButton.h"
@@ -43,6 +44,11 @@ bool KeypadButton::isHovered() const{
 }
 
 void KeypadButton::click(){
+    //add sound
+    df::Sound* p_sound = RM.getSound("keypad");
+    if (p_sound != nullptr)
+        p_sound->play();
+    
     if (m_p_parent != nullptr){
         m_p_parent->handleButtonPress(m_label);
     }

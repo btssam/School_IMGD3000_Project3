@@ -4,10 +4,12 @@
 //Engine includes
 #include "DisplayManager.h"
 #include "WorldManager.h"
+#include "ResourceManager.h"
 #include "LogManager.h"
 #include "EventMouse.h"
 #include "ObjectList.h"
 //Game includes
+#include "Hero.h"
 #include "Reticle.h"
 #include "UI.h"
 #include "Enemy.h"
@@ -99,6 +101,20 @@ void Reticle::handleMouseMove(df::Vector mouse_pos) {
 }
 
 void Reticle::handleMouseClick(df::Vector click_pos) {
+    
+    df::ObjectList heroes = WM.objectsOfType("Hero");
+
+    for (int i = 0; i < heroes.getCount(); i++) {
+        Hero* p_hero = dynamic_cast<Hero*>(heroes[i]);
+
+        if (p_hero != nullptr && p_hero->getIsFighting()) {
+            //add sound
+            df::Sound* p_sound = RM.getSound("sword");
+            if (p_sound != nullptr)
+                p_sound->play();
+        }
+    }
+    
     // If we hit an enemy, stop
     if (checkEnemy(click_pos)) {
         return;
@@ -138,6 +154,11 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                 p_enemy->setHP(new_hp);
                 p_enemy->flash();
 
+                //add sound
+                df::Sound* p_sound = RM.getSound("enemy-damage");
+                if (p_sound != nullptr)
+                    p_sound->play();
+
                 df::ObjectList ui_list = WM.objectsOfType("UI");
 
                 if (ui_list.getCount() > 0) {
@@ -151,8 +172,14 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                     }
                 }
 
-                if (p_enemy->getHP() <= 0) 
+                if (p_enemy->getHP() <= 0) {
+                    //add sound
+                    df::Sound* p_sound = RM.getSound("enemy-death");
+                    if (p_sound != nullptr)
+                        p_sound->play();
+
                     WM.markForDelete(p_enemy);
+                }
 
                 return true;
             }
@@ -187,6 +214,12 @@ bool Reticle::checkFountain(df::Vector click_pos) {
                     }
                 }
                 p_fountain->use();
+
+                //plays sound
+                df::Sound* p_sound = RM.getSound("drink");
+                if (p_sound != nullptr)
+                    p_sound->play();
+
                 return true;
             }
         }
