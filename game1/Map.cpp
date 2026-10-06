@@ -36,6 +36,7 @@ Map::Map(){
     grid[3][2].setHasEnemy(true);
     grid[9][3].setHasEnemy(true);
     grid[13][3].setHasEnemy(true);
+    grid[0][2].setHasEnemy(true);
     // Rooms with fountains
     grid[3][1].setHasFountain(true);
     grid[3][1].setFountainWall(Direction::NORTH);
@@ -43,8 +44,8 @@ Map::Map(){
     grid[1][3].setFountainWall(Direction::NORTH);
     grid[8][2].setHasFountain(true);
     grid[8][2].setFountainWall(Direction::WEST);
-    grid[11][3].setHasFountain(true);
-    grid[11][3].setFountainWall(Direction::EAST);
+    grid[11][1].setHasFountain(true);
+    grid[11][1].setFountainWall(Direction::SOUTH);
     // Rooms with clues
     grid[0][1].setHasClue(true);
     grid[0][1].setClueSprite("clue-9");
@@ -59,8 +60,8 @@ Map::Map(){
     grid[13][1].setClueSprite("clue-7");
     grid[13][1].setClueWall(Direction::WEST);
     // Room with color clue
-    grid[11][1].setHasColorClue(true);
-    grid[11][1].setColorClueWall(Direction::SOUTH);
+    grid[11][3].setHasColorClue(true);
+    grid[11][3].setColorClueWall(Direction::EAST);
 }
 
 Map::~Map(){
