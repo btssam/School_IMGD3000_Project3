@@ -2,6 +2,8 @@
 #include "WorldManager.h"
 
 #include "Keypad.h"
+#include "Map.h"
+#include "UI.h"
 
 Keypad::Keypad(){
     setType("Keypad");
@@ -99,6 +101,40 @@ void Keypad::handleButtonPress(std::string label){
     } else if (label == "ENTER"){
         if (m_entered_code == "9627"){
             m_is_solved = true;
+
+            df::WorldManager* p_wm = &df::WorldManager::getInstance();
+            df::ObjectList maps = p_wm->objectsOfType("Map");
+
+            if (maps.getCount() > 0){
+                Map* p_map = dynamic_cast<Map*>(maps[0]);
+                if (p_map != nullptr){
+                    //get keypad room
+                    Room *p_room = p_map->getRoom(m_roomPosition.getX(), m_roomPosition.getY());
+                    if (p_room != nullptr){
+                        //open the wall
+                        p_room->setWalls(false, false, true, false);
+                        p_room->setEastSpriteString("hallway-1");
+                        p_map->updateView(m_roomPosition, m_wall);
+                    }
+                }
+            }
+            //close keypad
+            setVisible(false);
+            for (KeypadButton* p_btn : m_buttons){
+                if (p_btn != nullptr){
+                    p_btn->setVisible(false);
+                }
+            }   
+            p_wm->markForDelete(this);
+
+            df::ObjectList ui_list = p_wm->objectsOfType("UI");
+            if (ui_list.getCount() > 0){
+                UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
+                if (p_ui != nullptr){
+                    p_ui->addLogMessage("The wall slides open.");
+                }
+            }
+
         } else {
             m_entered_code.clear();
         }
