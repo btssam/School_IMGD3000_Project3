@@ -2,6 +2,8 @@
 #include "Room.h"
 
 Room::Room(){
+    gridPosition = df::Vector(0, 0);
+
     isWallNorth = false;
     isWallEast = false;
     isWallSouth = false;
@@ -13,6 +15,7 @@ Room::Room(){
     westSprite = "";
 
     hasEnemy = false;
+
     hasFountain = false;
     // fountains default to North walls
     fountainWall = Direction::NORTH;
@@ -23,7 +26,8 @@ Room::Room(){
     hasColorClue = false;
     colorClueWall = Direction::SOUTH;
 
-    gridPosition = df::Vector(0, 0);
+    hasKeypad = false;
+    keypadWall = Direction::NORTH;
 }
 
 void Room::setWalls(bool north, bool east, bool south, bool west) {
@@ -41,6 +45,8 @@ void Room::setWestSpriteString(std::string sprite)  { westSprite = sprite; }
 void Room::setGridPosition(df::Vector pos) { gridPosition = pos; }
 void Room::setHasEnemy(bool enemy) {hasEnemy = enemy;}
 void Room::setHasFountain(bool fountain) {hasFountain = fountain;}
+void Room::setHasKeypad(bool keypad) {hasKeypad = keypad;}
+void Room::setKeypadWall(Direction wall) {keypadWall = wall;}
 
 // Getters
 bool Room::getIsNorthWall() const { return isWallNorth; }
@@ -65,3 +71,5 @@ void Room::setHasColorClue(bool clue) {hasColorClue = clue;}
 bool Room::getHasColorClue() {return hasColorClue;}
 void Room::setColorClueWall(Direction wall) {colorClueWall = wall;}
 Direction Room::getColorClueWall() const {return colorClueWall;}
+bool Room::getHasKeypad() const {return hasKeypad;}
+Direction Room::getKeypadWall() const {return keypadWall;}

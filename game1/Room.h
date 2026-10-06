@@ -41,14 +41,21 @@ class Room {
         bool hasEnemy;
         //true if a fountain is in the room.
         bool hasFountain;
+        //direction of fountain
         Direction fountainWall;
         //true if a clue is in the room
         bool hasClue;
         std::string clueSprite;
+        //duection of clue sprite
         Direction clueWall;
         //true if color clue is in the room
         bool hasColorClue;
+        //direction of colorclue wall
         Direction colorClueWall;
+        //true if a keypad is in the room
+        bool hasKeypad;
+        //direction of keypad wall
+        Direction keypadWall;
 
     public:
         //constructor
@@ -56,7 +63,6 @@ class Room {
 
         //set booleans for walls: North, East, South, West
         void setWalls(bool north, bool east, bool south, bool west);
-
         //set north sprite name
         void setNorthSpriteString(std::string sprite);
         //set east sprite name
@@ -66,6 +72,7 @@ class Room {
         //set west sprite name
         void setWestSpriteString(std::string sprite);
         // Position on the map grid
+
         void setGridPosition(df::Vector pos);
         // get wall blockage boolean for north direction
         bool getIsNorthWall() const;
@@ -83,10 +90,12 @@ class Room {
         std::string getSouthSprite() const;
         // get sprite name for west direction
         std::string getWestSprite() const;
+
         //set hasEnemy boolean
         void setHasEnemy(bool enemy);
         //get hasEnemy boolean
         bool getHasEnemy();
+
         //set hasFountain boolean
         void setHasFountain(bool fountain);
         //get hasFountain boolean
@@ -95,6 +104,7 @@ class Room {
         void setFountainWall(Direction wall);
         //get fountain wall
         Direction getFountainWall() const;
+
         //set hasClue boolean
         void setHasClue(bool clue);
         //get hasClue boolean
@@ -107,6 +117,7 @@ class Room {
         void setClueWall(Direction wall);
         //get clue wall
         Direction getClueWall() const;
+
         //set color clue boolean
         void setHasColorClue(bool clue);
         //get color clue boolean
@@ -115,4 +126,10 @@ class Room {
         void setColorClueWall(Direction wall);
         //get color clue wall
         Direction getColorClueWall() const;
+
+
+        void setHasKeypad(bool keypad);
+        bool getHasKeypad() const;
+        void setKeypadWall(Direction wall);
+        Direction getKeypadWall() const;
 };

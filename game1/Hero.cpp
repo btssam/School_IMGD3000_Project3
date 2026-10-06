@@ -14,6 +14,7 @@
 #include "Fountain.h"
 #include "Clue.h"
 #include "ColorClue.h"
+#include "Keypad.h"
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -141,6 +142,7 @@ void Hero::move_up(){
     updateFountains();
     updateClues();
     updateColorClues();
+    updateKeypads();
 }
 
 void Hero::turn_left(){
@@ -176,6 +178,7 @@ void Hero::turn_left(){
     updateFountains();
     updateClues();
     updateColorClues();
+    updateKeypads();
 }
 
 
@@ -212,6 +215,7 @@ void Hero::turn_right(){
     updateFountains();
     updateClues();
     updateColorClues();
+    updateKeypads();
 }
 
 void Hero::step(){
@@ -253,6 +257,7 @@ void Hero::take_damage(int amount){
 }
 
 // Checks for combat and spawns enemies and objects
+// this function is doing too much and/or needs to be renamed
 void Hero::checkCombat() {
     // Already fighting so don't need to start combat
     if (isFighting)
@@ -313,6 +318,16 @@ void Hero::checkCombat() {
 
         updateColorClues();
     }
+
+    if (p_current_room->getHasKeypad()){
+        Keypad* p_keypad = new Keypad();
+
+        p_keypad->setRoomPosition(gridPosition);
+        p_keypad->setWall(p_current_room->getKeypadWall());
+
+        p_current_room->setHasKeypad(false); //dont spawn duplicates
+        updateKeypads();
+    }
 }
 
 void Hero::updateFountains() {
@@ -347,5 +362,17 @@ void Hero::updateColorClues() {
 
         if (p_clue != nullptr)
             p_clue->updateVisibility(gridPosition, facingDirection);
+    }
+}
+
+void Hero::updateKeypads() {
+    df::ObjectList keypads = WM.objectsOfType("Keypad");
+
+    for (int i = 0; i < keypads.getCount(); i++) {
+        Keypad* p_keypad = dynamic_cast<Keypad*>(keypads[i]);
+
+        if (p_keypad != nullptr) {
+            p_keypad->updateVisibility(gridPosition, facingDirection);
+        }
     }
 }

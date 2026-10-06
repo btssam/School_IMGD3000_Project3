@@ -83,6 +83,9 @@ void loadResources(void) {
     RM.loadSprite("sprites/clue-6.txt", "clue-6");
     RM.loadSprite("sprites/clue-2.txt", "clue-2");
     RM.loadSprite("sprites/clue-7.txt", "clue-7");
+
+    //keypad sprites
+    RM.loadSprite("sprites/keypad_base.txt", "keypad_base");
 }
 
 void populateWorld(void) {

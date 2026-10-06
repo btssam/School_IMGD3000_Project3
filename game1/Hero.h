@@ -47,11 +47,16 @@ class Hero : public df::Object {
 
         //true if in a room with an enemy. disable movement and enable attack
         bool isFighting;
+        //
         void checkCombat();
-
+        //
         void updateFountains();
+        //
         void updateClues();
+        //
         void updateColorClues();
+        //
+        void updateKeypads();
 
     public:
         Hero(UI* p_ui, Map* p_map);

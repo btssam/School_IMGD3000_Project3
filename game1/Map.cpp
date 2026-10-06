@@ -62,6 +62,9 @@ Map::Map(){
     // Room with color clue
     grid[11][3].setHasColorClue(true);
     grid[11][3].setColorClueWall(Direction::EAST);
+    //Room with keypad
+    grid[0][0].setHasKeypad(true);
+    grid[0][0].setKeypadWall(Direction::SOUTH);
 }
 
 Map::~Map(){
