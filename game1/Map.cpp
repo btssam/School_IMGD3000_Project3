@@ -31,10 +31,36 @@ Map::Map(){
     generateMapFromSprite("sprites/map_1_8x16.txt");
 
     //Put specific objects/enemies interactables here
+    // Rooms with enemies
     grid[8][0].setHasEnemy(true);
     grid[3][2].setHasEnemy(true);
     grid[9][3].setHasEnemy(true);
     grid[13][3].setHasEnemy(true);
+    // Rooms with fountains
+    grid[3][1].setHasFountain(true);
+    grid[3][1].setFountainWall(Direction::NORTH);
+    grid[1][3].setHasFountain(true);
+    grid[1][3].setFountainWall(Direction::NORTH);
+    grid[8][2].setHasFountain(true);
+    grid[8][2].setFountainWall(Direction::WEST);
+    grid[11][3].setHasFountain(true);
+    grid[11][3].setFountainWall(Direction::EAST);
+    // Rooms with clues
+    grid[0][1].setHasClue(true);
+    grid[0][1].setClueSprite("clue-9");
+    grid[0][1].setClueWall(Direction::NORTH);
+    grid[5][0].setHasClue(true);
+    grid[5][0].setClueSprite("clue-6");
+    grid[5][0].setClueWall(Direction::NORTH);
+    grid[9][1].setHasClue(true);
+    grid[9][1].setClueSprite("clue-2");
+    grid[9][1].setClueWall(Direction::NORTH);
+    grid[13][1].setHasClue(true);
+    grid[13][1].setClueSprite("clue-7");
+    grid[13][1].setClueWall(Direction::EAST);
+    // Room with color clue
+    grid[11][1].setHasColorClue(true);
+    grid[11][1].setColorClueWall(Direction::SOUTH);
 }
 
 Map::~Map(){

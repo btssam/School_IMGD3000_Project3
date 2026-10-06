@@ -22,6 +22,9 @@ GAMESRC= \
     GameOver.cpp \
     Enemy.cpp \
     Reticle.cpp \
+    Fountain.cpp \
+    Clue.cpp \
+    ColorClue.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)

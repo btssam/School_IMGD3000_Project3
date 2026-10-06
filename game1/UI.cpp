@@ -10,7 +10,7 @@
 UI::UI() {
     setType("UI");
 
-    m_max_hp = 400;
+    m_max_hp = 100;
     m_hp = m_max_hp;
     m_log.clear();
 

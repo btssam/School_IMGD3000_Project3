@@ -49,6 +49,10 @@ class Hero : public df::Object {
         bool isFighting;
         void checkCombat();
 
+        void updateFountains();
+        void updateClues();
+        void updateColorClues();
+
     public:
         Hero(UI* p_ui, Map* p_map);
         ~Hero();

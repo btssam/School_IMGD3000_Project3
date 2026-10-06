@@ -11,6 +11,9 @@
 #include "Hero.h"
 #include "GameOver.h"
 #include "Enemy.h"
+#include "Fountain.h"
+#include "Clue.h"
+#include "ColorClue.h"
 
 
 Hero::Hero(UI* p_ui, Map* p_map) {
@@ -37,10 +40,13 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     p_map->updateView(gridPosition, facingDirection);
 
     p_ui->setHeroPosition(gridPosition);
+    updateFountains();
+    updateClues();
+    updateColorClues();
 }
 
 Hero::~Hero(){
-    new GameOver; //start a gameover when the hero is deleted (e.g. dies)
+    
 }
 
 int Hero::eventHandler(const df::Event *p_e){
@@ -132,6 +138,9 @@ void Hero::move_up(){
 
     p_ui->setHeroPosition(gridPosition);
     p_map->updateView(gridPosition, facingDirection);
+    updateFountains();
+    updateClues();
+    updateColorClues();
 }
 
 void Hero::turn_left(){
@@ -164,6 +173,9 @@ void Hero::turn_left(){
     }
 
     p_map->updateView(gridPosition, facingDirection);
+    updateFountains();
+    updateClues();
+    updateColorClues();
 }
 
 
@@ -197,6 +209,9 @@ void Hero::turn_right(){
     }
 
     p_map->updateView(gridPosition, facingDirection);
+    updateFountains();
+    updateClues();
+    updateColorClues();
 }
 
 void Hero::step(){
@@ -215,7 +230,7 @@ void Hero::step(){
             take_damage_countdown = 0;
         
         if (take_damage_countdown == 0){
-            take_damage(10);
+            take_damage(5);
             p_ui->addLogMessage("Clayhead attacks!");
             take_damage_countdown = take_damage_slowdown;
         }
@@ -230,12 +245,14 @@ void Hero::take_damage(int amount){
     p_ui->setHP(std::max(0, p_ui->getHP() - amount));
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
+        new GameOver;
         WM.markForDelete(this);
     }
     p_ui->addLogMessage("I take " + std::to_string(amount) + " damage!");
     DM.shake(4, 4, 8);
 }
 
+// Checks for combat and spawns enemies and objects
 void Hero::checkCombat() {
     // Already fighting so don't need to start combat
     if (isFighting)
@@ -250,6 +267,7 @@ void Hero::checkCombat() {
     if (p_current_room == nullptr)
         return ;
 
+    // Spawn enemy in room
     if (p_current_room->getHasEnemy()){
         isFighting = true;
         new Enemy();
@@ -259,5 +277,75 @@ void Hero::checkCombat() {
         
         //mark room as cleared as soon as fight starts, so that the player can't just leave and come back to fight the same enemy again (could also be handled at the end of a fight, but since theres no way of running, it doesnt matter)
         p_current_room->setHasEnemy(false);
+    }
+
+    // Spawn fountain in room
+    if (p_current_room->getHasFountain()) {
+        Fountain* p_fountain = new Fountain();
+
+        p_fountain->setRoomPosition(gridPosition);
+        p_fountain->setWall(p_current_room->getFountainWall());
+
+        // Mark room so the fountain isn't spawned again
+        p_current_room->setHasFountain(false);
+    }
+
+    // Spawn clue in room
+    if (p_current_room->getHasClue()) {
+        Clue* p_clue = new Clue(p_current_room->getClueSprite());
+
+        p_clue->setRoomPosition(gridPosition);
+        p_clue->setWall(p_current_room->getClueWall());
+
+        p_current_room->setHasClue(false);
+
+        updateClues();
+    }
+
+    // Spawn color clue in room
+    if (p_current_room->getHasColorClue()) {
+        ColorClue* p_clue = new ColorClue();
+
+        p_clue->setRoomPosition(gridPosition);
+        p_clue->setWall(p_current_room->getColorClueWall());
+
+        p_current_room->setHasColorClue(false);
+
+        updateColorClues();
+    }
+}
+
+void Hero::updateFountains() {
+    df::ObjectList fountains = WM.objectsOfType ("Fountain");
+
+    for (int i = 0; i < fountains.getCount(); i++) {
+        Fountain* p_fountain = dynamic_cast<Fountain*>(fountains[i]);
+
+        if (p_fountain != nullptr) {
+            p_fountain->updateVisibility(gridPosition, facingDirection);
+        }
+    }
+}
+
+void Hero::updateClues() {
+    df::ObjectList clues = WM.objectsOfType("Clue");
+
+    for (int i = 0; i < clues.getCount(); i++) {
+        Clue* p_clue = dynamic_cast<Clue*>(clues[i]);
+
+        if (p_clue != nullptr) {
+            p_clue->updateVisibility(gridPosition, facingDirection);
+        }
+    }
+}
+
+void Hero::updateColorClues() {
+    df::ObjectList clues = WM.objectsOfType("ColorClue");
+
+    for (int i = 0; i < clues.getCount(); i++) {
+        ColorClue* p_clue = dynamic_cast<ColorClue*>(clues[i]);
+
+        if (p_clue != nullptr)
+            p_clue->updateVisibility(gridPosition, facingDirection);
     }
 }

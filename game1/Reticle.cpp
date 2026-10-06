@@ -1,14 +1,17 @@
 // System includes
 #include <string>
+#include <algorithm>
 //Engine includes
 #include "DisplayManager.h"
 #include "WorldManager.h"
+#include "LogManager.h"
 #include "EventMouse.h"
 #include "ObjectList.h"
 //Game includes
 #include "Reticle.h"
 #include "UI.h"
 #include "Enemy.h"
+#include "Fountain.h"
 
 //should probably be removed when not fighting an enemy
 Reticle::Reticle() {
@@ -18,7 +21,7 @@ Reticle::Reticle() {
 
     setSolidness(df::SPECTRAL);
 
-    setAltitude(df::MAX_ALTITUDE);
+    setAltitude(4);
 
     registerInterest(df::MSE_EVENT);
 
@@ -36,7 +39,9 @@ int Reticle::draw() {
 }
 
 int Reticle::eventHandler(const df::Event* p_e) {
+    
     if (p_e->getType() == df::MSE_EVENT) {
+
         const df::EventMouse*p_mouse_event =
             dynamic_cast<const df::EventMouse*>(p_e);
 
@@ -45,27 +50,60 @@ int Reticle::eventHandler(const df::Event* p_e) {
 
         // Move reticle with mouse
         if (p_mouse_event->getMouseAction() == df::MOVED) {
-            setPosition(p_mouse_event->getMousePosition());
+            df::Vector mouse_position =
+                p_mouse_event->getMousePosition();
+
+            // Moves reticle
+            setPosition(mouse_position);
+
+            df::ObjectList fountains =
+                WM.objectsOfType("Fountain");
+
+            for (int i = 0; i < fountains.getCount(); i++) {
+                Fountain* p_fountain =
+                    dynamic_cast<Fountain*>(fountains[i]);
+
+                if (p_fountain != nullptr) {
+                    p_fountain->setHovered(false);
+                }
+            }
+
+            // Checks what mouse is on
+            df::ObjectList objects =
+                WM.objectsAtPosition(mouse_position);
+
+            for (int i = 0; i < objects.getCount(); i++) {
+                Fountain* p_fountain =
+                    dynamic_cast<Fountain*>(objects[i]);
+
+                if (p_fountain != nullptr) {
+                    p_fountain->setHovered(true);
+                }
+            }
+
             return 1;
         }
 
-        // Click on enemy
+        // Click on object
         if (p_mouse_event->getMouseAction() == df::CLICKED &&
             p_mouse_event->getMouseButton() == df::Mouse::LEFT) {
                 df::Vector click_position = p_mouse_event->getMousePosition();
 
                 df::ObjectList objects = WM.objectsAtPosition(click_position);
 
+                // Look for enemy before object
                 for (int i = 0; i < objects.getCount(); i++) {
                     df::Object* p_object = objects[i];
 
+                    // If click on enemy
                     if (p_object->getType() == "enemy") {
                         Enemy* p_enemy =
                             dynamic_cast<Enemy*>(p_object);
 
                         if (p_enemy != nullptr) {
                             //might want an enemy take damage function to allow different values
-                            p_enemy->setHP(p_enemy->getHP() - 5);
+                            int new_hp = std::max(0, p_enemy->getHP() - 5);
+                            p_enemy->setHP(new_hp);
                             p_enemy->flash();
 
                             df::ObjectList ui_list = WM.objectsOfType("UI");
@@ -77,29 +115,57 @@ int Reticle::eventHandler(const df::Event* p_e) {
                                     p_ui->addLogMessage(
                                         "Clayhead hit! HP:" + std::to_string(p_enemy->getHP())
                                     );
+
+                                    if (p_enemy->getHP() <= 0) {
+                                        p_ui->addLogMessage(
+                                            "Clayhead defeated!"
+                                        );
+                                    }
                                 }
                             }
 
-                            // Enemy death
-                            if (p_enemy->getHP() <= 0) {
+                            if (p_enemy->getHP() <= 0) 
+                                WM.markForDelete(p_enemy);
+
+                            return 1;
+                        }
+                    }
+
+                    // If click on fountain
+                    if (p_object->getType() == "Fountain") {
+                        
+                        Fountain* p_fountain =
+                            dynamic_cast<Fountain*>(p_object);
+                        
+                            if (p_fountain != nullptr && !p_fountain->isEmpty()) {
+                                
                                 df::ObjectList ui_list = WM.objectsOfType("UI");
 
                                 if (ui_list.getCount() > 0) {
-                                    UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
+                                    
+                                    UI* p_ui =
+                                        dynamic_cast<UI*>(ui_list[0]);
 
                                     if (p_ui != nullptr) {
-                                        p_ui->addLogMessage("Clayhead defeated!");
+                                        int new_hp =
+                                            std::min(p_ui->getHP() + 50, 100);
+
+                                        p_ui->setHP(new_hp);
+
+                                        p_ui->addLogMessage(
+                                            "Restored 50 HP!"
+                                        );
                                     }
                                 }
 
-                                WM.markForDelete(p_enemy);
+                                p_fountain->use();
                             }
-                        }
-                        return 1;
+
+                            return 1;
                     }
                 }
                 return 1;
             }
         }
-    return 0;
+        return 0;
 }

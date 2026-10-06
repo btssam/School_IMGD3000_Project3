@@ -1,13 +1,19 @@
 //System includes
 #include <cstdlib>
+#include <algorithm>
 //Engine includes
 #include "WorldManager.h"
 #include "ResourceManager.h"
+#include "LogManager.h"
 #include "EventStep.h"
 //Game includes
 #include "Enemy.h"
 
 Enemy::Enemy() {
+
+//test
+LM.writeLog("Enemy constructor called");
+
     setType("enemy");
     setSprite("enemy");
 
@@ -23,7 +29,7 @@ Enemy::Enemy() {
 
     setPosition(df::Vector(40, 10));
 
-    setAltitude(5);
+    setAltitude(3);
 }
 
 Enemy::~Enemy() {
@@ -91,7 +97,7 @@ void Enemy::move() {
 }
 
 void Enemy::setHP(int hp) {
-    m_hp = hp;
+    m_hp = std::max(0, hp);
 }
 
 int Enemy::getHP() const {

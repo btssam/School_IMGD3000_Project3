@@ -1,0 +1,24 @@
+<HEADER>
+frames 1
+width 5
+height 10
+color green
+slowdown 0
+transparency #
+</HEADER>
+<BODY>
+#222#
+2###2
+####2
+####2
+###2#
+##2##
+#2###
+2####
+2####
+22222
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

@@ -37,8 +37,19 @@ class Room {
         //sprite name for the west direction (could be wall or hallway)
         std::string westSprite;
 
-        //true if an enemy is present in the room. will do similar pattern for other objects in a room (e.g. keypad, locked doors, fountains)
+        //true if an enemy is present in the room.
         bool hasEnemy;
+        //true if a fountain is in the room.
+        bool hasFountain;
+        Direction fountainWall;
+        //true if a clue is in the room
+        bool hasClue;
+        std::string clueSprite;
+        Direction clueWall;
+        //true if color clue is in the room
+        bool hasColorClue;
+        Direction colorClueWall;
+
     public:
         //constructor
         Room();
@@ -76,4 +87,32 @@ class Room {
         void setHasEnemy(bool enemy);
         //get hasEnemy boolean
         bool getHasEnemy();
+        //set hasFountain boolean
+        void setHasFountain(bool fountain);
+        //get hasFountain boolean
+        bool getHasFountain();
+        //set fountain wall
+        void setFountainWall(Direction wall);
+        //get fountain wall
+        Direction getFountainWall() const;
+        //set hasClue boolean
+        void setHasClue(bool clue);
+        //get hasClue boolean
+        bool getHasClue();
+        //set clue sprite
+        void setClueSprite(std::string sprite);
+        //get clue sprite
+        std::string getClueSprite() const;
+        //set clue wall
+        void setClueWall(Direction wall);
+        //get clue wall
+        Direction getClueWall() const;
+        //set color clue boolean
+        void setHasColorClue(bool clue);
+        //get color clue boolean
+        bool getHasColorClue();
+        //set color clue wall
+        void setColorClueWall(Direction wall);
+        //get color clue wall
+        Direction getColorClueWall() const;
 };

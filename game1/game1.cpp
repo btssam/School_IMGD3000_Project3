@@ -12,6 +12,7 @@
 #include "UI.h"
 #include "Reticle.h"
 #include "Enemy.h"
+#include "Fountain.h"
 
 //function prototypes
 void loadResources(void);
@@ -72,13 +73,22 @@ void loadResources(void) {
     RM.loadSprite("sprites/enemy.txt", "enemy");
     RM.loadSprite("sprites/enemy-hit.txt", "enemy-hit");
 
+    //fountain sprites
+    RM.loadSprite("sprites/fountain.txt", "fountain");
+    RM.loadSprite("sprites/fountain-hover.txt", "fountain-hover");
+    RM.loadSprite("sprites/fountain-empty.txt", "fountain-empty");
+
+    //clue sprites
+    RM.loadSprite("sprites/clue-9.txt", "clue-9");
+    RM.loadSprite("sprites/clue-6.txt", "clue-6");
+    RM.loadSprite("sprites/clue-2.txt", "clue-2");
+    RM.loadSprite("sprites/clue-7.txt", "clue-7");
 }
 
 void populateWorld(void) {
     // populate UI
     UI* p_ui = new UI();
 
-    //currently just spawns reticle and enemy right away, will want to add some logic actually have enemies positioned on the map
     // populate reticle
     new Reticle();
 
@@ -87,6 +97,4 @@ void populateWorld(void) {
     // populate hero
     new Hero(p_ui, p_map);
 
-    // populate enemy
-    // new Enemy();
 }
