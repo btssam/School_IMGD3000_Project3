@@ -4,7 +4,6 @@ width 2
 height 2
 color magenta
 slowdown 0
-transparency #
 </HEADER>
 <BODY>
 /\
