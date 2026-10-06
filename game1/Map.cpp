@@ -14,6 +14,7 @@ Map::Map(){
     setType("Map");
     //position on screen: center of the 80x18 area above UI
     setPosition(df::Vector(40.5, 8.5));
+    setAltitude(0);
 
     map_width = 0;
     map_height = 0;

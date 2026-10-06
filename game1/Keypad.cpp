@@ -1,4 +1,5 @@
 #include "DisplayManager.h"
+#include "WorldManager.h"
 
 #include "Keypad.h"
 
@@ -13,8 +14,35 @@ Keypad::Keypad(){
 
     //center in dungeon view, above UI
     setPosition(df::Vector(40, 8));
-    setAltitude(2);
+    setAltitude(1);
     setVisible(false);
+
+    struct ButtonLayout{
+        std::string label;
+        df::Vector pos;
+    };
+
+    ButtonLayout layout[] = {
+        {"7", df::Vector(28, 3.5)}, {"8", df::Vector(40, 3.5)}, {"9", df::Vector(52, 3.5)},
+        {"4", df::Vector(28, 6.5)}, {"5", df::Vector(40, 6.5)}, {"6", df::Vector(52, 6.5)},
+        {"1", df::Vector(28, 9.5)}, {"2", df::Vector(40, 9.5)}, {"3", df::Vector(52, 9.5)},
+        {"CLEAR", df::Vector(28, 12.5)},                   {"ENTER", df::Vector(52, 12.5)}
+    };
+
+    for (const ButtonLayout& item : layout){
+        KeypadButton* p_btn = new KeypadButton(item.label, item.pos, this);
+        m_buttons.push_back(p_btn);
+    }
+
+}
+
+Keypad::~Keypad(){
+    df::WorldManager* p_wm = &df::WorldManager::getInstance();
+    for (KeypadButton* p_btn : m_buttons){
+        if (p_btn != nullptr){
+            p_wm->markForDelete(p_btn);
+        }
+    }
 }
 
 void Keypad::setRoomPosition(df::Vector roomPosition){
@@ -40,13 +68,19 @@ void Keypad::updateVisibility(df::Vector heroRoom, Direction heroDirection){
     } else {
         setVisible(false);
     }
+
+    for (KeypadButton* p_btn : m_buttons){
+        if (p_btn != nullptr){
+            p_btn->setVisible(isVisible());
+        }
+    }
 }
 
 int Keypad::draw(){
     if (!isVisible()){
         return 0;
     }
-    //draw base sprite
+    // draw base sprite. just functions as a black blank background
     df::Object::draw();
     //draw the entered digit on bottom of the keypad display
     df::DisplayManager* p_dm = &df::DisplayManager::getInstance();
@@ -54,4 +88,24 @@ int Keypad::draw(){
     p_dm->drawString(df::Vector(40, 13), display_text, df::CENTER_JUSTIFIED, df::YELLOW);
 
     return 0;
+}
+
+void Keypad::handleButtonPress(std::string label){
+    if (m_is_solved) {
+        return;
+    }
+    if (label == "CLEAR"){
+        m_entered_code.clear();
+    } else if (label == "ENTER"){
+        if (m_entered_code == "9627"){
+            m_is_solved = true;
+        } else {
+            m_entered_code.clear();
+        }
+    } else {
+        //digit entered
+        if (m_entered_code.length() < 4){
+            m_entered_code += label;
+        }
+    }
 }

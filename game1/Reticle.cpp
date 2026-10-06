@@ -12,6 +12,7 @@
 #include "UI.h"
 #include "Enemy.h"
 #include "Fountain.h"
+#include "KeypadButton.h"
 
 //should probably be removed when not fighting an enemy
 Reticle::Reticle() {
@@ -61,6 +62,16 @@ void Reticle::handleMouseMove(df::Vector mouse_pos) {
     // Moves reticle
     setPosition(mouse_pos);
 
+    //reset hover on all keypad buttons
+    df::ObjectList buttons = WM.objectsOfType("KeypadButton");
+    for (int i = 0; i < buttons.getCount(); i++){
+        KeypadButton* p_button = dynamic_cast<KeypadButton*>(buttons[i]);
+        if (p_button != nullptr){
+            p_button->setHovered(false);
+        }
+    }
+
+    //check hover on fountain
     df::ObjectList fountains = WM.objectsOfType("Fountain");
     for (int i = 0; i < fountains.getCount(); i++) {
         Fountain* p_fountain = dynamic_cast<Fountain*>(fountains[i]);
@@ -69,12 +80,20 @@ void Reticle::handleMouseMove(df::Vector mouse_pos) {
         }
     }
 
-    // Checks what mouse is on
+    // Checks what mouse is on (just fountains for now)
     df::ObjectList objects = WM.objectsAtPosition(mouse_pos);
     for (int i = 0; i < objects.getCount(); i++) {
         Fountain* p_fountain = dynamic_cast<Fountain*>(objects[i]);
         if (p_fountain != nullptr && p_fountain->isVisible()) {
             p_fountain->setHovered(true);
+        }
+    }
+
+    //hover button
+    for (int i = 0; i < objects.getCount(); i++){
+        KeypadButton* p_button = dynamic_cast<KeypadButton*>(objects[i]);
+        if (p_button != nullptr && p_button->isVisible()){
+            p_button->setHovered(true);
         }
     }
 }
@@ -87,6 +106,16 @@ void Reticle::handleMouseClick(df::Vector click_pos) {
 
     // Otherwise check for fountain
     checkFountain(click_pos);
+
+    //should be its own function too. check keypad buttons
+    df::ObjectList object = WM.objectsAtPosition(click_pos);
+    for (int i = 0; i < object.getCount(); i++){
+        KeypadButton* p_button = dynamic_cast<KeypadButton*>(object[i]);
+        if (p_button != nullptr && p_button->isVisible()){
+            p_button->click();
+            return;
+        }
+    }
 }
 
 bool Reticle::checkEnemy(df::Vector click_pos) {

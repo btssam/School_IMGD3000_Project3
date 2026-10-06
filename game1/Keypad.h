@@ -1,9 +1,13 @@
 // Keypad. Houses all the key buttons
 #pragma once
 
+#include <vector>
+
 #include "Object.h"
 
 #include "Room.h"
+#include "KeypadButton.h"
+
 
 class Keypad: public df:: Object{
     private:
@@ -15,9 +19,14 @@ class Keypad: public df:: Object{
         bool m_is_solved;
         //current code
         std::string m_entered_code;
+        //buttons list
+        std::vector<KeypadButton*> m_buttons;
+
     public:
         //constructor
         Keypad();
+        //destructor
+        ~Keypad();
         //set grid position of keypad
         void setRoomPosition(df::Vector roomPosition);
         //get grid position of keypad
@@ -30,4 +39,6 @@ class Keypad: public df:: Object{
         void updateVisibility(df::Vector heroRoom, Direction heroDirection);
         //draw override
         int draw() override;
+        //handle button clicked
+        void handleButtonPress(std::string label);
 };

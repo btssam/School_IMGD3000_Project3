@@ -26,6 +26,7 @@ GAMESRC= \
     Clue.cpp \
     ColorClue.cpp \
     Keypad.cpp \
+    KeypadButton.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)

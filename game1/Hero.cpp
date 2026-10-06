@@ -279,6 +279,7 @@ void Hero::checkCombat() {
         //maybe a brief intro or message with a pause to give a chance for the player to get ready
         p_ui->addLogMessage("A Clayhead appears!");
         p_ui->addLogMessage("FIGHT!");
+        //could just pause for 2 seconds here to give player a sec to orient themselves
         
         //mark room as cleared as soon as fight starts, so that the player can't just leave and come back to fight the same enemy again (could also be handled at the end of a fight, but since theres no way of running, it doesnt matter)
         p_current_room->setHasEnemy(false);

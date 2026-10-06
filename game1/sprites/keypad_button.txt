@@ -1,19 +1,18 @@
 <HEADER>
 frames 2
 width 13
-height 4
+height 3
 color yellow
 slowdown -1
+transparency #
 </HEADER>
 <BODY>
-  _________  
- |         | 
- |    5    | 
- |_________| 
+##_________##
+#|         |#
+#|_________|#
 end
- ___________ 
+#___________#
 |           |
-|     5     |
 |___________|
 end
 </BODY>
