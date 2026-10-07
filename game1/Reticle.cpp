@@ -213,7 +213,7 @@ bool Reticle::checkFountain(df::Vector click_pos) {
                     UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
 
                     if (p_ui != nullptr) {
-                        int new_hp = std::min(p_ui->getHP() + 0, 100);
+                        int new_hp = std::min(p_ui->getHP() + 20, 100);
                         p_ui->setHP(new_hp);
                         p_ui->addLogMessage("Restored 20 HP!");
                     }
