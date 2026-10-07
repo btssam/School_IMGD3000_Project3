@@ -49,13 +49,13 @@ Map::Map(){
     grid[11][1].setFountainWall(Direction::SOUTH);
     // Rooms with clues
     grid[0][1].setHasClue(true);
-    grid[0][1].setClueSprite("clue-9");
+    grid[0][1].setClueSprite("clue-2");
     grid[0][1].setClueWall(Direction::NORTH);
     grid[5][0].setHasClue(true);
     grid[5][0].setClueSprite("clue-6");
     grid[5][0].setClueWall(Direction::NORTH);
     grid[9][1].setHasClue(true);
-    grid[9][1].setClueSprite("clue-2");
+    grid[9][1].setClueSprite("clue-9");
     grid[9][1].setClueWall(Direction::NORTH);
     grid[13][1].setHasClue(true);
     grid[13][1].setClueSprite("clue-7");
