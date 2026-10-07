@@ -10,6 +10,24 @@
 GameVictory::GameVictory(){
     setType("GameVictory");
 
+    //Stop explore music
+    df::Music* p_explore_music = RM.getMusic("music-explore");
+    if (p_explore_music != nullptr)
+        p_explore_music->stop();
+    //Stop enemy music
+    df::Music* p_enemy_music = RM.getMusic("music-enemy");
+    if (p_enemy_music != nullptr)
+        p_enemy_music->stop();
+    //Stop boss music
+    df::Music* p_boss_music = RM.getMusic("music-boss");
+    if (p_boss_music != nullptr)
+        p_boss_music->stop();
+    
+    //Play win music
+    df::Music* p_win_music = RM.getMusic("music-win");
+    if (p_win_music != nullptr)
+        p_win_music->play(false);
+
     // Configure animation layers
     df::Sprite* p_base_sprite = RM.getSprite("claypool_base");
     if (p_base_sprite != nullptr) {
@@ -35,8 +53,8 @@ GameVictory::GameVictory(){
     setSprite("claypool_base");
 
 
-    // Match GameOver duration (720 ticks = 24 seconds at 30 fps)
-    time_to_live = 720;
+    // Match GameOver duration (300 ticks = 10 seconds at 30 fps)
+    time_to_live = 300;
 
     setPosition(df::Vector(41, 10.5));
     setAltitude(df::MAX_ALTITUDE);
@@ -61,7 +79,7 @@ GameVictory::GameVictory(){
     if (ui_list.getCount() > 0) {
         UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
         if (p_ui != nullptr) {
-            p_ui->addLogMessage("in 24 seconds.");
+            p_ui->addLogMessage("in 10 seconds.");
             p_ui->addLogMessage("The game will quit");
             p_ui->addLogMessage("YOU WIN!");
             p_ui->addLogMessage("CONGRATULATIONS");

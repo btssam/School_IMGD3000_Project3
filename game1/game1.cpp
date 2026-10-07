@@ -133,6 +133,8 @@ void loadResources(void) {
     RM.loadMusic("audio/music-boss.wav", "music-boss");
     //Gameover music
     RM.loadMusic("audio/music-gameover.wav", "music-gameover");
+    //Win music
+    RM.loadMusic("audio/music-win.wav", "music-win");
 }
 
 void populateWorld(void) {
