@@ -2,7 +2,7 @@
 frames 1
 width 60
 height 12
-color white
+color yellow
 slowdown 0
 </HEADER>
 <BODY>

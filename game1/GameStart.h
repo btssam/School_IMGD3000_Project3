@@ -22,6 +22,10 @@ class GameStart : public df::ViewObject {
         void start();
         //step event each frame (for story countdown)
         void step();
+        //spawns background precipitation particles behind start screen
+        void spawnParticles();
+        //removes background precipitation particles when entering dungeon
+        void removeParticles();
 
     public:
         //constructor

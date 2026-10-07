@@ -5,6 +5,8 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "DisplayManager.h"
+#include "utility.h"
+#include "Precipitation.h"
 
 // Game includes
 #include "GameStart.h"
@@ -117,6 +119,9 @@ void GameStart::start(){
     //stop moving
     setVelocity(df::Vector(0, 0));
 
+    //remove background particles when entering dungeon
+    removeParticles();
+
     //spawn gameplay objects
     UI* p_ui = new UI();
     new Reticle();
@@ -146,7 +151,31 @@ void GameStart::playMusic(){
     setVelocity(df::Vector(0, 0));
     in_story = false;
 
+    //spawn background particles behind start screen
+    spawnParticles();
+
     //start looping title music
     if (p_music_title != nullptr)
         p_music_title->play(true);
+}
+
+void GameStart::spawnParticles(){
+    //only spawn if not already present in world
+    if (WM.objectsOfType("Precipitation").getCount() == 0){
+        df::addParticles(df::SNOW, df::DOWN);
+        df::ObjectList particles = WM.objectsOfType("Precipitation");
+        for (int i = 0; i < particles.getCount(); i++){
+            df::Object* p_o = particles[i];
+            p_o->setAltitude(1);
+        }
+    }
+}
+
+void GameStart::removeParticles(){
+    //mark all precipitation particles for deletion
+    df::ObjectList particles = WM.objectsOfType("Precipitation");
+    for (int i = 0; i < particles.getCount(); i++){
+        df::Object* p_o = particles[i];
+        WM.markForDelete(p_o);
+    }
 }
