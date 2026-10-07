@@ -17,7 +17,7 @@ the new wasteland, their DNA morphed with the clay, changing
 Clayhead wanders outside, you, a survivor in the wasteland, 
  are quick to take it down. But on this creature you find a 
     map leading to its treasure. For on this map is the     
-                 MARK of the CLAY POOL. . .                                             
+                 MARK of the CLAY POOL. . .                 
 end
 </BODY>
 <FOOTER>

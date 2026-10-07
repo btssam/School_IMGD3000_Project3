@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 //Game includes
 #include "GameVictory.h"
+#include "GameStart.h"
 #include "UI.h"
 
 GameVictory::GameVictory(){
@@ -80,7 +81,7 @@ GameVictory::GameVictory(){
         UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
         if (p_ui != nullptr) {
             p_ui->addLogMessage("in 10 seconds.");
-            p_ui->addLogMessage("The game will quit");
+            p_ui->addLogMessage("Returning to title");
             p_ui->addLogMessage("YOU WIN!");
             p_ui->addLogMessage("CONGRATULATIONS");
             p_ui->addLogMessage("Its the CLAY POOL!");
@@ -89,14 +90,17 @@ GameVictory::GameVictory(){
 }
 
 GameVictory::~GameVictory(){
-    //remove objects, end game
+    //remove objects, re-activate gamestart
     df::ObjectList object_list = WM.getAllObjects(true);
     for (int i = 0; i < object_list.getCount(); i++){
         df::Object* p_o = object_list[i];
-        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle")
+        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle" || p_o->getType() == "Fountain" || p_o->getType() == "Clue" || p_o->getType() == "ColorClue" || p_o->getType() == "Keypad" || p_o->getType() == "KeypadButton")
             WM.markForDelete(p_o);
+        if (p_o->getType() == "GameStart"){
+            p_o->setActive(true);
+            dynamic_cast<GameStart*>(p_o)->playMusic(); //resume start music
+        }
     }
-    GM.setGameOver(true);
 }
 
 int GameVictory::eventHandler(const df::Event *p_e){

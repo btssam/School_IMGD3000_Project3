@@ -13,6 +13,7 @@
 #include "Reticle.h"
 #include "Enemy.h"
 #include "Fountain.h"
+#include "GameStart.h"
 
 //function prototypes
 void loadResources(void);
@@ -68,6 +69,11 @@ void loadResources(void) {
 
     //game over sprite
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+
+    //gamestart sprite
+    RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
+    //story sprite
+    RM.loadSprite("sprites/story.txt", "story");
 
     //enemy sprites
     RM.loadSprite("sprites/enemy.txt", "enemy");
@@ -138,15 +144,5 @@ void loadResources(void) {
 }
 
 void populateWorld(void) {
-    // populate UI
-    UI* p_ui = new UI();
-
-    // populate reticle
-    new Reticle();
-
-    // populate map
-    Map* p_map = new Map();
-    // populate hero
-    new Hero(p_ui, p_map);
-
+    new GameStart();
 }

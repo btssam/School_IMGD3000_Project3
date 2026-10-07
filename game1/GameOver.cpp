@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 //Game includes
 #include "GameOver.h"
+#include "GameStart.h"
 
 GameOver::GameOver(){
     setType("GameOver");
@@ -14,7 +15,7 @@ GameOver::GameOver(){
     else
         time_to_live = 0;
 
-    setLocation(df::CENTER_CENTER);
+    setPosition(df::Vector(40.5, 8.5));
     registerInterest(df::STEP_EVENT);
 
     // Remove reticle immediately so combat stops
@@ -31,15 +32,13 @@ GameOver::~GameOver(){
     df::ObjectList object_list = WM.getAllObjects(true);
     for (int i = 0; i<object_list.getCount(); i++){
         df::Object *p_o = object_list[i];
-        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle")
+        if (p_o->getType() == "Map" || p_o->getType() == "Hero" || p_o->getType() == "UI" || p_o->getType() == "enemy" || p_o->getType() == "Reticle" || p_o->getType() == "Fountain" || p_o->getType() == "Clue" || p_o->getType() == "ColorClue" || p_o->getType() == "Keypad" || p_o->getType() == "KeypadButton")
             WM.markForDelete(p_o);
-        //to be implemented later, making it restart to the start screen instead of just quitting:
-        // if (p_o->getType() == "GameStart"){
-        //     p_o->setActive(true);
-        //     dynamic_cast <GameStart *> (p_o)->playMusic(); //resume start music
-        // }
+        if (p_o->getType() == "GameStart"){
+            p_o->setActive(true);
+            dynamic_cast <GameStart *> (p_o)->playMusic(); //resume start music
+        }
     }
-    GM.setGameOver(true); //reset game over state
 }
 
 int GameOver::eventHandler(const df::Event *p_e){

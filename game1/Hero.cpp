@@ -76,9 +76,28 @@ int Hero::eventHandler(const df::Event *p_e){
 
 void Hero::kbd(const df::EventKeyboard *p_keyboard_event){
     switch(p_keyboard_event->getKey()){
-        case df::Keyboard::Q: //quit. May want to expand this to go to a pause menu or main menu later
-            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) //just on pressed, not on released
-                GM.setGameOver(true);
+        case df::Keyboard::Q: //quit back to title screen via GameOver
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+                //stop any combat or exploration music
+                df::Music* p_explore_music = RM.getMusic("music-explore");
+                if (p_explore_music != nullptr)
+                    p_explore_music->stop();
+                df::Music* p_enemy_music = RM.getMusic("music-enemy");
+                if (p_enemy_music != nullptr)
+                    p_enemy_music->stop();
+                df::Music* p_boss_music = RM.getMusic("music-boss");
+                if (p_boss_music != nullptr)
+                    p_boss_music->stop();
+
+                //start gameover music
+                df::Music* p_gameover_music = RM.getMusic("music-gameover");
+                if (p_gameover_music != nullptr)
+                    p_gameover_music->play(false);
+
+                //trigger game over screen
+                new GameOver;
+                WM.markForDelete(this);
+            }
             break;
         case df::Keyboard::W:
         case df::Keyboard::UPARROW:

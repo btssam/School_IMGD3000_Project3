@@ -28,6 +28,7 @@ GAMESRC= \
     Keypad.cpp \
     KeypadButton.cpp \
     GameVictory.cpp \
+    GameStart.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)
