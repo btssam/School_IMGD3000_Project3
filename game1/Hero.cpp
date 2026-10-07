@@ -49,6 +49,12 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     updateFountains();
     updateClues();
     updateColorClues();
+
+    //Starts exploration music
+    df::Music* p_explore_music = RM.getMusic("music-explore");
+    if (p_explore_music != nullptr) {
+            p_explore_music->play(true);
+    }
 }
 
 Hero::~Hero(){
@@ -272,6 +278,17 @@ void Hero::step(){
         
         if (enemies.getCount() == 0) {
             isFighting = false;
+
+            //Stops enemy music
+            df::Music* p_enemy_music = RM.getMusic("music-enemy");
+            if (p_enemy_music != nullptr) {
+                    p_enemy_music->stop();
+            }
+            //Starts exploration music
+            df::Music* p_explore_music = RM.getMusic("music-explore");
+            if (p_explore_music != nullptr) {
+                    p_explore_music->play(true);
+            }
         }
     }
 }
@@ -286,6 +303,28 @@ void Hero::take_damage(int amount){
 
     if (p_ui->getHP() <= 0){
         p_ui->addLogMessage("I am dead!");
+
+        //Stops exploration music
+        df::Music* p_explore_music = RM.getMusic("music-explore");
+        if (p_explore_music != nullptr) {
+                p_explore_music->stop();
+        }
+        //Stops enemy music
+        df::Music* p_enemy_music = RM.getMusic("music-enemy");
+        if (p_enemy_music != nullptr) {
+                p_enemy_music->stop();
+        }
+        //Stops boss music
+        df::Music* p_boss_music = RM.getMusic("music-boss");
+        if (p_boss_music != nullptr) {
+                p_boss_music->stop();
+        }
+        //Starts gameover music
+        df::Music* p_gameover_music = RM.getMusic("music-gameover");
+        if (p_gameover_music != nullptr) {
+                p_gameover_music->play(false);
+        }
+
         new GameOver;
         WM.markForDelete(this);
     }
@@ -313,6 +352,18 @@ void Hero::checkCombat() {
     if (p_current_room->getHasEnemy()){
         isFighting = true;
         Enemy* p_enemy = new Enemy();
+
+        //Stops exploration music
+        df::Music* p_explore_music = RM.getMusic("music-explore");
+        if (p_explore_music != nullptr) {
+                p_explore_music->stop();
+        }
+        //Starts enemy music
+        df::Music* p_enemy_music = RM.getMusic("music-enemy");
+        if (p_enemy_music != nullptr) {
+                p_enemy_music->play(true);
+        }
+
         //Check if we are at the final boss room (15, 4)
         if (gridPosition == df::Vector(15, 4)) {
             p_enemy->setName("CLAYKING");

@@ -114,6 +114,19 @@ void loadResources(void) {
     RM.loadSound("audio/keypad-correct.wav", "keypad-correct");
     //keypad incorrect code sound
     RM.loadSound("audio/keypad-incorrect.wav", "keypad-incorrect");
+
+    //Title screen music
+    RM.loadMusic("audio/music-title.wav", "music-title");
+    //Exposition screen music
+    RM.loadMusic("audio/music-exposition.wav", "music-exposition");
+    //Explore music
+    RM.loadMusic("audio/music-explore.wav", "music-explore");
+    //Enemy combat music
+    RM.loadMusic("audio/music-enemy.wav", "music-enemy");
+    //Boss combat music
+    RM.loadMusic("audio/music-boss.wav", "music-boss");
+    //Gameover music
+    RM.loadMusic("audio/music-gameover.wav", "music-gameover");
 }
 
 void populateWorld(void) {
