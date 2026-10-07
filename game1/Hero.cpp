@@ -394,6 +394,9 @@ void Hero::checkCombat() {
 
         // Mark room so the fountain isn't spawned again
         p_current_room->setHasFountain(false);
+
+        p_ui->addLogMessage("It will heal once!");
+        p_ui->addLogMessage("I find a fountain!");
     }
 
     // Spawn clue in room
@@ -404,6 +407,10 @@ void Hero::checkCombat() {
         p_clue->setWall(p_current_room->getClueWall());
 
         p_current_room->setHasClue(false);
+
+
+        p_ui->addLogMessage("Hmm, how odd...");
+        p_ui->addLogMessage("I find a clue!");
 
         updateClues();
     }
@@ -417,6 +424,9 @@ void Hero::checkCombat() {
 
         p_current_room->setHasColorClue(false);
 
+        p_ui->addLogMessage("Hmm, how odd...");
+        p_ui->addLogMessage("I find a clue!");
+
         updateColorClues();
     }
 
@@ -427,6 +437,10 @@ void Hero::checkCombat() {
         p_keypad->setWall(p_current_room->getKeypadWall());
 
         p_current_room->setHasKeypad(false); //dont spawn duplicates
+
+        p_ui->addLogMessage("Hmm, how odd...");
+        p_ui->addLogMessage("I find a keypad!");
+
         updateKeypads();
     }
 }

@@ -125,7 +125,7 @@ void Keypad::handleButtonPress(std::string label){
                     if (p_room != nullptr){
                         //open the wall
                         p_room->setWalls(false, false, true, false);
-                        p_room->setEastSpriteString("hallway-1");
+                        p_room->setEastSpriteString("hallway-3");
                         p_map->updateView(m_roomPosition, m_wall);
                     }
                 }
@@ -143,7 +143,7 @@ void Keypad::handleButtonPress(std::string label){
             if (ui_list.getCount() > 0){
                 UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
                 if (p_ui != nullptr){
-                    p_ui->addLogMessage("The wall slides open.");
+                    p_ui->addLogMessage("Wall slides open!");
                 }
             }
 
