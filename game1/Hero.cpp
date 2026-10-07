@@ -284,6 +284,11 @@ void Hero::step(){
             if (p_enemy_music != nullptr) {
                     p_enemy_music->stop();
             }
+            //Stops boss music
+            df::Music* p_boss_music = RM.getMusic("music-boss");
+            if (p_boss_music != nullptr) {
+                p_boss_music->stop();
+            }
             //Starts exploration music
             df::Music* p_explore_music = RM.getMusic("music-explore");
             if (p_explore_music != nullptr) {
@@ -353,19 +358,9 @@ void Hero::checkCombat() {
         isFighting = true;
         Enemy* p_enemy = new Enemy();
 
-        //Stops exploration music
-        df::Music* p_explore_music = RM.getMusic("music-explore");
-        if (p_explore_music != nullptr) {
-                p_explore_music->stop();
-        }
-        //Starts enemy music
-        df::Music* p_enemy_music = RM.getMusic("music-enemy");
-        if (p_enemy_music != nullptr) {
-                p_enemy_music->play(true);
-        }
-
-        //Check if we are at the final boss room (15, 4)
-        if (gridPosition == df::Vector(15, 4)) {
+        //Check if we're at boss room
+        bool isBoss = (gridPosition == df::Vector(15, 4));
+        if (isBoss) {
             p_enemy->setName("CLAYKING");
             p_enemy->setHP(300);
             p_enemy->setMoveCooldown(2);
@@ -376,9 +371,30 @@ void Hero::checkCombat() {
             p_ui->addLogMessage("CLAYKING appears!");
             p_enemy->setStepSize(8, 2);
             p_enemy->setBounds(13, 67, 6, 11);
-        } else {
+        }
+        else {
             p_ui->addLogMessage("A Clayhead appears!");
         }
+
+        //Stops exploration music
+        df::Music* p_explore_music = RM.getMusic("music-explore");
+        if (p_explore_music != nullptr) {
+                p_explore_music->stop();
+        }
+        //Starts combat music (enemy or boss)
+        if (isBoss) {
+            df::Music* p_boss_music = RM.getMusic("music-boss");
+            if (p_boss_music != nullptr) {
+                p_boss_music->play(true);
+            }
+        }
+        else {
+            df::Music* p_enemy_music = RM.getMusic("music-enemy");
+            if (p_enemy_music != nullptr) {
+                    p_enemy_music->play(true);
+            }
+        }
+
         p_ui->addLogMessage("FIGHT!");
         p_current_room->setHasEnemy(false);
         //maybe a brief intro or message with a pause to give a chance for the player to get ready
