@@ -13,6 +13,7 @@ Keypad::Keypad(){
     m_roomPosition = df::Vector(0,0);
     m_wall = Direction::NORTH;
     m_is_solved = false;
+    m_has_been_seen = false;
     m_entered_code = "";
 
     //center in dungeon view, above UI
@@ -68,6 +69,20 @@ void Keypad::updateVisibility(df::Vector heroRoom, Direction heroDirection){
     //only visibile when standing in keypad's room and facing the wall it is on
     if(heroRoom == m_roomPosition && heroDirection == m_wall){
         setVisible(true);
+
+        //custom logic, just for keypad, as all other objects are visible when entering room due to being at dead ends
+        if (!m_has_been_seen){
+            m_has_been_seen = true;
+            df::WorldManager* p_wm = &df::WorldManager::getInstance();
+            df::ObjectList ui_list = p_wm->objectsOfType("UI");
+            if (ui_list.getCount() > 0){
+                UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
+                if (p_ui != nullptr){
+                    p_ui->addLogMessage("Hmm, how odd...");
+                    p_ui->addLogMessage("I find a keypad!");
+                }
+            }
+        }
     } else {
         setVisible(false);
     }
@@ -144,6 +159,7 @@ void Keypad::handleButtonPress(std::string label){
                 UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
                 if (p_ui != nullptr){
                     p_ui->addLogMessage("Wall slides open!");
+                    p_ui->addLogMessage("Danger ahead!");
                 }
             }
 

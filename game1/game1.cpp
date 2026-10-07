@@ -90,6 +90,12 @@ void loadResources(void) {
     RM.loadSprite("sprites/keypad_base.txt", "keypad_base");
     RM.loadSprite("sprites/keypad_button.txt", "keypad_button");
 
+    //claypool victory sprites
+    RM.loadSprite("sprites/claypool_base.txt", "claypool_base");
+    RM.loadSprite("sprites/claypool_clay.txt", "claypool_clay");
+    RM.loadSprite("sprites/claypool_X.txt", "claypool_X");
+    RM.loadSprite("sprites/claypool_sparkles.txt", "claypool_sparkles");
+
     //player hurt sound
     RM.loadSound("audio/hurt.wav", "hurt");
     //player turn sound

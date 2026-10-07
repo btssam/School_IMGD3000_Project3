@@ -17,6 +17,8 @@ class Keypad: public df:: Object{
         Direction m_wall;
         //whether it is already solved or not
         bool m_is_solved;
+        //whether keypad has been seen yet
+        bool m_has_been_seen;
         //current code
         std::string m_entered_code;
         //buttons list

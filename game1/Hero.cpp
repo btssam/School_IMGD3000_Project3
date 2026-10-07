@@ -31,7 +31,7 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     
     gridPosition = df::Vector(0, 0);
     //starting position in order to test the keypad/door
-    //gridPosition = df::Vector(14, 4);
+    // gridPosition = df::Vector(14, 4);
 
     move_slowdown = 16;
     move_countdown = move_slowdown;
@@ -39,9 +39,9 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     take_damage_slowdown = 60;
     take_damage_countdown = take_damage_slowdown;
 
-    // facingDirection = Direction::NORTH;
-    //starting direction in order to test the keypad/door
     facingDirection = Direction::EAST;
+    //starting direction in order to test the keypad/door
+    // facingDirection = Direction::EAST;
 
     p_map->updateView(gridPosition, facingDirection);
 
@@ -453,9 +453,6 @@ void Hero::checkCombat() {
         p_keypad->setWall(p_current_room->getKeypadWall());
 
         p_current_room->setHasKeypad(false); //dont spawn duplicates
-
-        p_ui->addLogMessage("Hmm, how odd...");
-        p_ui->addLogMessage("I find a keypad!");
 
         updateKeypads();
     }

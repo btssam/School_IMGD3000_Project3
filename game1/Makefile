@@ -27,6 +27,7 @@ GAMESRC= \
     ColorClue.cpp \
     Keypad.cpp \
     KeypadButton.cpp \
+    GameVictory.cpp \
 
 # ==============================================================================
 # ENGINE & COMPILER CONFIGURATION (Auto-detects Linux vs macOS)

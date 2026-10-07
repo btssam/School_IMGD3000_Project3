@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "Fountain.h"
 #include "KeypadButton.h"
+#include "GameVictory.h"
 
 //should probably be removed when not fighting an enemy
 Reticle::Reticle() {
@@ -177,6 +178,10 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                     df::Sound* p_sound = RM.getSound(p_enemy->getSoundDeath());
                     if (p_sound != nullptr)
                         p_sound->play();
+
+                    if (p_enemy->getName() == "CLAYKING") {
+                        new GameVictory();
+                    }
 
                     WM.markForDelete(p_enemy);
                 }
