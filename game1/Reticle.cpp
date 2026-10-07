@@ -155,7 +155,7 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                 p_enemy->flash();
 
                 //add sound
-                df::Sound* p_sound = RM.getSound("enemy-damage");
+                df::Sound* p_sound = RM.getSound(p_enemy->getSoundDamage());
                 if (p_sound != nullptr)
                     p_sound->play();
 
@@ -165,16 +165,16 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                     UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
 
                     if (p_ui != nullptr) {
-                        p_ui->addLogMessage("Clayhead hit! HP:" + std::to_string(p_enemy->getHP()));
+                        p_ui->addLogMessage(p_enemy->getName() + " hit! HP:" + std::to_string(p_enemy->getHP()));
                         if (p_enemy->getHP() <= 0) {
-                            p_ui->addLogMessage("Clayhead defeated!");
+                            p_ui->addLogMessage(p_enemy->getName() + " defeated!");
                         }
                     }
                 }
 
                 if (p_enemy->getHP() <= 0) {
                     //add sound
-                    df::Sound* p_sound = RM.getSound("enemy-death");
+                    df::Sound* p_sound = RM.getSound(p_enemy->getSoundDeath());
                     if (p_sound != nullptr)
                         p_sound->play();
 

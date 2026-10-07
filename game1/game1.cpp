@@ -72,6 +72,8 @@ void loadResources(void) {
     //enemy sprites
     RM.loadSprite("sprites/enemy.txt", "enemy");
     RM.loadSprite("sprites/enemy-hit.txt", "enemy-hit");
+    RM.loadSprite("sprites/boss.txt", "boss");
+    RM.loadSprite("sprites/boss-hit.txt", "boss-hit");
 
     //fountain sprites
     RM.loadSprite("sprites/fountain.txt", "fountain");

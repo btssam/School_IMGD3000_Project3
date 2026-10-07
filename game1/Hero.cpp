@@ -254,8 +254,19 @@ void Hero::step(){
             take_damage_countdown = 0;
         
         if (take_damage_countdown == 0){
-            take_damage(5);
-            p_ui->addLogMessage("Clayhead attacks!");
+            if (enemies.getCount() > 0) {
+                Enemy* p_enemy = dynamic_cast<Enemy*>(enemies[0]);
+                if (p_enemy != nullptr) {
+                    if (p_enemy->getName() == "CLAYKING"){
+                        take_damage(8);
+                    }
+                    else{
+                        take_damage(5);
+                    }
+                    p_ui->addLogMessage(p_enemy->getName() + " attacks!");
+                }
+            }
+
             take_damage_countdown = take_damage_slowdown;
         }
         
@@ -301,14 +312,26 @@ void Hero::checkCombat() {
     // Spawn enemy in room
     if (p_current_room->getHasEnemy()){
         isFighting = true;
-        new Enemy();
-        //maybe a brief intro or message with a pause to give a chance for the player to get ready
-        p_ui->addLogMessage("A Clayhead appears!");
+        Enemy* p_enemy = new Enemy();
+        //Check if we are at the final boss room (15, 4)
+        if (gridPosition == df::Vector(15, 4)) {
+            p_enemy->setName("CLAYKING");
+            p_enemy->setHP(300);
+            p_enemy->setMoveCooldown(2);
+            p_enemy->setSpriteNormal("boss");
+            p_enemy->setSpriteHit("boss-hit");
+            p_enemy->setSoundDamage("boss-damage");
+            p_enemy->setSoundDeath("boss-death");
+            p_ui->addLogMessage("CLAYKING appears!");
+            p_enemy->setStepSize(8, 2);
+            p_enemy->setBounds(13, 67, 6, 11);
+        } else {
+            p_ui->addLogMessage("A Clayhead appears!");
+        }
         p_ui->addLogMessage("FIGHT!");
-        //could just pause for 2 seconds here to give player a sec to orient themselves
-        
-        //mark room as cleared as soon as fight starts, so that the player can't just leave and come back to fight the same enemy again (could also be handled at the end of a fight, but since theres no way of running, it doesnt matter)
         p_current_room->setHasEnemy(false);
+        //maybe a brief intro or message with a pause to give a chance for the player to get ready
+        //could just pause for 2 seconds here to give player a sec to orient themselves
     }
 
     // Spawn fountain in room
