@@ -165,7 +165,7 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
                     UI* p_ui = dynamic_cast<UI*>(ui_list[0]);
 
                     if (p_ui != nullptr) {
-                        p_ui->addLogMessage(p_enemy->getName() + " hit! HP:" + std::to_string(p_enemy->getHP()));
+                        p_ui->addLogMessage(p_enemy->getName() + " HP:" + std::to_string(p_enemy->getHP()));
                         if (p_enemy->getHP() <= 0) {
                             p_ui->addLogMessage(p_enemy->getName() + " defeated!");
                         }

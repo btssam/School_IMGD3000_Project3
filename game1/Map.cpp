@@ -70,8 +70,6 @@ Map::Map(){
     //override map generation at this position, to set a wall here until keypad is solved (wall currently doesnt show up on map - could add if I wanted to, but keeps it mysterious I guess)
     grid[14][4].setWalls(false, true, true, false);
     grid[14][4].setEastSpriteString("wall-1");
-
-    //temporary boss: just a regular enemy
     grid[15][4].setHasEnemy(true);
 }
 
