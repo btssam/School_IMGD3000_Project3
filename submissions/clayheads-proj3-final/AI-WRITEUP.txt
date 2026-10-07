@@ -1,0 +1,20 @@
+AI_WRITEUP.txt
+
+==============================================================
+AI was used sparingly for this project. It was used to help build a map generation algorithm, that took the map sprite, which is made by hand, and called the relevant room functions to build the map in game.
+
+This added a layer of conveinence. We had already demonstrated the ability to make the map by hand when it was a 3x3 map in the alpha, and each room required about 5 lines of code to establish the room and sprites. But scaling up to a 16x5 map would cause the 45 lines of code to bloat up to 400 lines of code, and it would be a slow meticulous process to do this manually.
+
+Writing an algorithm ourselves to do this was also beyond the scope of this course and would require a significant time investment and knowledge of algorithms.
+
+Ben Samara ran these prompt using the coding agent, Antigravity, which had access to project files.
+
+Files affected:
+Map.h and Map.cpp, specifically the generateMapFromSprite() function.
+
+Verification:
+The game ran on and generated the map correctly on both Austin and Ben's computer
+
+==============================================================
+Other:
+AI was not used for any testing functions or other coding

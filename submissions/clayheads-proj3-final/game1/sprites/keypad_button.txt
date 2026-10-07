@@ -1,0 +1,21 @@
+<HEADER>
+frames 2
+width 13
+height 3
+color yellow
+slowdown -1
+transparency #
+</HEADER>
+<BODY>
+##_________##
+#|         |#
+#|_________|#
+end
+#___________#
+|           |
+|___________|
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

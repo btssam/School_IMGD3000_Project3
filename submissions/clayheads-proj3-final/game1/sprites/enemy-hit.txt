@@ -1,0 +1,21 @@
+<HEADER>
+frames 1
+width 23
+height 7
+color magenta
+slowdown 0
+transparency #
+</HEADER>
+<BODY>
+#########_____#########
+#######_/     \_#######
+#####_/  .   .  \_#####
+###_/___| ___ |___\_###
+##/____\_/___\_/____\##
+########\_____/########
+######/_________\######
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

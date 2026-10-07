@@ -1,0 +1,25 @@
+<HEADER>
+frames 1
+width 60
+height 12
+color yellow
+slowdown 0
+</HEADER>
+<BODY>
+    After a crashed meteor destroyed most of the Earth's    
+ clay, clay became more valuable than gold. One corporation 
+ collected all of the remaining clay into a giant cash pool 
+    in an underground vault. In the centuries since, the    
+   employees inside had grown religious to the clay, and    
+ smeared some over their bodies. Due to the radiation from  
+the new wasteland, their DNA morphed with the clay, changing
+   them into the deadly Clayheads found inside. When one    
+Clayhead wanders outside, you, a survivor in the wasteland, 
+ are quick to take it down. But on this creature you find a 
+    map leading to its treasure. For on this map is the     
+                 MARK of the CLAY POOL. . .                 
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>
