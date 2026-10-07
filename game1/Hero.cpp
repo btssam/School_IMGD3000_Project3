@@ -29,9 +29,9 @@ Hero::Hero(UI* p_ui, Map* p_map) {
     isFacingWall = false;
     isFighting = false;
     
-    // gridPosition = df::Vector(0, 0);
+    gridPosition = df::Vector(0, 0);
     //starting position in order to test the keypad/door
-    gridPosition = df::Vector(14, 4);
+    //gridPosition = df::Vector(14, 4);
 
     move_slowdown = 16;
     move_countdown = move_slowdown;
