@@ -11,7 +11,6 @@ class GameVictory : public df::ViewObject{
         int time_to_live;
         //step event each frame (for countdown)
         void step();
-
         //animation layers for multi-colored clay pool
         df::Animation m_base_anim;
         df::Animation m_clay_anim;

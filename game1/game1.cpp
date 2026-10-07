@@ -1,5 +1,5 @@
 //
-// game1.cpp - Dungeon Crawler starter
+// game1.cpp - WASTELAND: Mark of the Clay Pool
 //
 
 // Engine includes
@@ -25,28 +25,21 @@ int main(int argc, char* argv[]) {
         LM.writeLog("Error starting game manager!");
         return 1;
     }
-
     //flush logfile
     LM.setFlush(true);
-
     //load sprites, sounds, etc.
     loadResources();
-
     //add the UI, map, hero, etc.
     populateWorld();
 
     GM.run();
-
     GM.shutDown();
     return 0;
 }
 
 void loadResources(void) {
     //ui sprite
-    if (RM.loadSprite("sprites/ui.txt", "ui") != 0) {
-        LM.writeLog("Error loading UI sprite");
-    }
-
+    RM.loadSprite("sprites/ui.txt", "ui");
     //reticle sprite
     RM.loadSprite("sprites/reticle.txt", "reticle");
 
@@ -69,7 +62,6 @@ void loadResources(void) {
 
     //game over sprite
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
-
     //gamestart sprite
     RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
     //story sprite
@@ -96,7 +88,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/keypad_base.txt", "keypad_base");
     RM.loadSprite("sprites/keypad_button.txt", "keypad_button");
 
-    //claypool victory sprites
+    //claypool/victory sprites
     RM.loadSprite("sprites/claypool_base.txt", "claypool_base");
     RM.loadSprite("sprites/claypool_clay.txt", "claypool_clay");
     RM.loadSprite("sprites/claypool_X.txt", "claypool_X");
@@ -126,7 +118,6 @@ void loadResources(void) {
     RM.loadSound("audio/keypad-correct.wav", "keypad-correct");
     //keypad incorrect code sound
     RM.loadSound("audio/keypad-incorrect.wav", "keypad-incorrect");
-
     //Title screen music
     RM.loadMusic("audio/music-title.wav", "music-title");
     //Exposition screen music

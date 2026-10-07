@@ -1,3 +1,4 @@
+//game includes
 #include "Clue.h"
 
 Clue::Clue(std::string spriteLabel) {
@@ -5,7 +6,7 @@ Clue::Clue(std::string spriteLabel) {
     setSprite(spriteLabel);
 
     m_roomPosition = df::Vector(0, 0);
-    // Default direction is north
+    //Default direction is north
     m_wall = Direction::NORTH;
 
     setPosition(df::Vector(40, 8));

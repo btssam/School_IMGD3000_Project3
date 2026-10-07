@@ -17,7 +17,6 @@
 #include "KeypadButton.h"
 #include "GameVictory.h"
 
-//should probably be removed when not fighting an enemy
 Reticle::Reticle() {
     setType("Reticle");
     setSprite("reticle");
@@ -124,14 +123,9 @@ void Reticle::handleMouseClick(df::Vector click_pos) {
     // Otherwise check for fountain
     checkFountain(click_pos);
 
-    //should be its own function too. check keypad buttons
-    df::ObjectList object = WM.objectsAtPosition(click_pos);
-    for (int i = 0; i < object.getCount(); i++){
-        KeypadButton* p_button = dynamic_cast<KeypadButton*>(object[i]);
-        if (p_button != nullptr && p_button->isVisible()){
-            p_button->click();
-            return;
-        }
+    // Check keypad buttons
+    if (checkKeypad(click_pos)) {
+        return;
     }
 }
 
@@ -150,6 +144,9 @@ bool Reticle::checkEnemy(df::Vector click_pos) {
             Enemy* p_enemy = dynamic_cast<Enemy*>(p_object);
 
             if (p_enemy != nullptr) {
+                // If waiting in spawn grace period, wake up immediately
+                p_enemy->setSpawnCountdown(0);
+
                 //might want an enemy take damage function to allow different values
                 int new_hp = std::max(0, p_enemy->getHP() - 5);
                 p_enemy->setHP(new_hp);
@@ -225,6 +222,28 @@ bool Reticle::checkFountain(df::Vector click_pos) {
                 if (p_sound != nullptr)
                     p_sound->play();
 
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Reticle::checkKeypad(df::Vector click_pos) {
+    df::ObjectList objects = WM.objectsAtPosition(click_pos);
+
+    for (int i = 0; i < objects.getCount(); i++) {
+        df::Object* p_object = objects[i];
+
+        if (!p_object->isVisible()) {
+            continue;
+        }
+
+        if (p_object->getType() == "KeypadButton") {
+            KeypadButton* p_button = dynamic_cast<KeypadButton*>(p_object);
+            if (p_button != nullptr) {
+                p_button->click();
                 return true;
             }
         }

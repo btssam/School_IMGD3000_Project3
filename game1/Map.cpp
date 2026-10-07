@@ -3,10 +3,8 @@
 #include <sstream>
 #include <vector>
 #include <string>
-
 //Engine includes
 #include "LogManager.h"
-
 //Game includes
 #include "Map.h"
 
@@ -27,8 +25,6 @@ Map::Map(){
         }
     }
 
-    // generateMapFromSprite("sprites/map_1_3x3.txt");
-    generateMapFromSprite("sprites/map_1_8x5.txt");
     generateMapFromSprite("sprites/map_1_8x16.txt");
 
     //Put specific objects/enemies interactables here

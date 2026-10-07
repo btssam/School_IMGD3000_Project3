@@ -11,9 +11,6 @@
 
 Enemy::Enemy() {
 
-//test
-LM.writeLog("Enemy constructor called");
-
     setType("enemy");
     setSprite("enemy");
 
@@ -21,6 +18,7 @@ LM.writeLog("Enemy constructor called");
 
     m_moveCooldown = 4;
     m_move_countdown = m_moveCooldown;
+    m_spawn_countdown = 15;
 
     m_flash_slowdown = 4;
     m_flash_counter = 0;
@@ -58,6 +56,12 @@ int Enemy::eventHandler(const df::Event* p_e) {
             if (m_flash_counter == 0) {
                 setSprite(m_sprite_normal); // Revert back to normal when counter reaches 0
             }
+        }
+
+        // Pause movement for half a second to let player prepare
+        if (m_spawn_countdown > 0) {
+            m_spawn_countdown--;
+            return 1;
         }
 
         move();
@@ -183,4 +187,12 @@ void Enemy::setBounds(int min_x, int max_x, int min_y, int max_y) {
     m_max_x = max_x;
     m_min_y = min_y;
     m_max_y = max_y;
+}
+
+int Enemy::getSpawnCountdown() const {
+    return m_spawn_countdown;
+}
+
+void Enemy::setSpawnCountdown(int countdown) {
+    m_spawn_countdown = countdown;
 }

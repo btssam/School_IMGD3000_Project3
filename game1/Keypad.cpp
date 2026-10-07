@@ -16,7 +16,7 @@ Keypad::Keypad(){
     m_has_been_seen = false;
     m_entered_code = "";
 
-    //center in dungeon view, above UI
+    //center in view, above UI
     setPosition(df::Vector(40, 8));
     setAltitude(1);
     setVisible(false);
@@ -70,7 +70,7 @@ void Keypad::updateVisibility(df::Vector heroRoom, Direction heroDirection){
     if(heroRoom == m_roomPosition && heroDirection == m_wall){
         setVisible(true);
 
-        //custom logic, just for keypad, as all other objects are visible when entering room due to being at dead ends
+        //custom log message logic, just for keypad, as all other objects are visible when entering room due to being at dead ends
         if (!m_has_been_seen){
             m_has_been_seen = true;
             df::WorldManager* p_wm = &df::WorldManager::getInstance();
@@ -112,6 +112,7 @@ void Keypad::handleButtonPress(std::string label){
     if (m_is_solved) {
         return;
     }
+    //pressed the CLEAR button
     if (label == "CLEAR"){
         //add sound
         df::Sound* p_sound = RM.getSound("keypad");
@@ -119,8 +120,9 @@ void Keypad::handleButtonPress(std::string label){
             p_sound->play();
 
         m_entered_code.clear();
-
+    //pressed the ENTER button
     } else if (label == "ENTER"){
+        //inputted code was CORRECT
         if (m_entered_code == "9627"){
             m_is_solved = true;
 
@@ -163,6 +165,7 @@ void Keypad::handleButtonPress(std::string label){
                 }
             }
 
+        //inputted code was WRONG
         } else {
             //add sound
             df::Sound* p_sound = RM.getSound("keypad-incorrect");
@@ -172,7 +175,7 @@ void Keypad::handleButtonPress(std::string label){
             m_entered_code.clear();
         }
     } else {
-        //digit entered
+        //pressed a DIGIT button (1-9)
         if (m_entered_code.length() < 4){
             m_entered_code += label;
         }

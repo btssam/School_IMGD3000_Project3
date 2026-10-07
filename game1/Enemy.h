@@ -13,6 +13,8 @@ class Enemy : public df::Object {
         int m_moveCooldown;
         //counter for movement cooldown
         int m_move_countdown;
+        //countdown timer for spawn pause (lets player get ready)
+        int m_spawn_countdown;
         //cooldown for flashing when hit
         int m_flash_slowdown;
         // counter for flashing when hit
@@ -44,8 +46,9 @@ class Enemy : public df::Object {
         void move();
 
     public:
-        //constructor and destructor
+        //constructor
         Enemy();
+        //destrcutor
         ~Enemy();
         //event handler for step event
         int eventHandler(const df::Event* p_e) override;
@@ -79,9 +82,12 @@ class Enemy : public df::Object {
         std::string getSoundDeath() const;
         //get movement speed
         int getMoveCooldown() const;
-        // Set step displacement
+        //set step displacement
         void setStepSize(int step_x, int step_y);
-        // Set roaming boundaries
+        //set roaming boundaries
         void setBounds(int min_x, int max_x, int min_y, int max_y);
-
+        //get spawn delay countdown
+        int getSpawnCountdown() const;
+        //set spawn delay countdown
+        void setSpawnCountdown(int countdown);
 };

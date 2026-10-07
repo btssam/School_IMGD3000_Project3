@@ -6,7 +6,7 @@
 
 class GameOver : public df::ViewObject{
     private:
-        //how long th GameOver screen should stay on screen before deleting itself
+        //how long the GameOver screen should stay on screen before deleting itself
         int time_to_live;
         //step event each frame (for countdown)
         void step();

@@ -1,13 +1,13 @@
-// Keypad. Houses all the key buttons
+//Keypad contains all the key buttons
 #pragma once
 
+//System includes
 #include <vector>
-
+//engine includes
 #include "Object.h"
-
+//game includes
 #include "Room.h"
 #include "KeypadButton.h"
-
 
 class Keypad: public df:: Object{
     private:

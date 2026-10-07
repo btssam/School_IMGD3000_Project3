@@ -27,7 +27,6 @@ class Room {
 
         //position of the room on the map grid
         df::Vector gridPosition;
-
         //sprite name for the north direction (could be wall or hallway)
         std::string northSprite;
         //sprite name for the east direction (could be wall or hallway)
@@ -73,6 +72,7 @@ class Room {
         void setWestSpriteString(std::string sprite);
         // Position on the map grid
 
+        //set position on the map grid
         void setGridPosition(df::Vector pos);
         // get wall blockage boolean for north direction
         bool getIsNorthWall() const;
@@ -104,7 +104,6 @@ class Room {
         void setFountainWall(Direction wall);
         //get fountain wall
         Direction getFountainWall() const;
-
         //set hasClue boolean
         void setHasClue(bool clue);
         //get hasClue boolean
@@ -117,7 +116,6 @@ class Room {
         void setClueWall(Direction wall);
         //get clue wall
         Direction getClueWall() const;
-
         //set color clue boolean
         void setHasColorClue(bool clue);
         //get color clue boolean
@@ -126,10 +124,12 @@ class Room {
         void setColorClueWall(Direction wall);
         //get color clue wall
         Direction getColorClueWall() const;
-
-
+        //set hasKeypad boolean
         void setHasKeypad(bool keypad);
+        //get hasKeypad boolean
         bool getHasKeypad() const;
+        //set keypad wall
         void setKeypadWall(Direction wall);
+        //get keypad wall
         Direction getKeypadWall() const;
 };

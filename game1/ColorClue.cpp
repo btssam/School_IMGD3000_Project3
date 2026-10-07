@@ -1,5 +1,7 @@
-#include "ColorClue.h"
+//Engine includes
 #include "DisplayManager.h"
+//Game includes
+#include "ColorClue.h"
 
 ColorClue::ColorClue() {
     setType("ColorClue");

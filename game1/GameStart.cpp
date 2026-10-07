@@ -1,3 +1,4 @@
+//Handles starting the game, displays main menu sprite, and handles the story crawl
 // Engine includes
 #include "EventKeyboard.h"
 #include "EventStep.h"
@@ -92,12 +93,11 @@ void GameStart::startStory(){
     float start_y = WM.getBoundary().getVertical() + (getAnimation().getSprite()->getHeight() / 2.0f);
     setPosition(df::Vector(start_x, start_y));
 
-    //set upward direction and velocity across 45 seconds (1350 ticks)
-    //total distance to travel from y=32 to y=-6 is 38 spaces
     setDirection(df::Vector(0, -1));
     setSpeed(38.0f / 1350.0f);
 
     //set story timeout (45 seconds * 30 ticks/sec = 1350 ticks)
+    //the music track is ~45 seconds
     story_time_to_live = 1350;
     in_story = true;
 }
@@ -112,11 +112,8 @@ void GameStart::step(){
 }
 
 void GameStart::start(){
-    //stop exposition music
     if (p_music_story != nullptr)
         p_music_story->stop();
-
-    //stop moving
     setVelocity(df::Vector(0, 0));
 
     //remove background particles when entering dungeon
@@ -145,7 +142,7 @@ void GameStart::playMusic(){
     if (p_story_music != nullptr)
         p_story_music->stop();
 
-    //reset visual state and stop movement
+    //reset visual and stop movement
     setSprite("gamestart");
     setLocation(df::CENTER_CENTER);
     setVelocity(df::Vector(0, 0));
@@ -153,8 +150,7 @@ void GameStart::playMusic(){
 
     //spawn background particles behind start screen
     spawnParticles();
-
-    //start looping title music
+    
     if (p_music_title != nullptr)
         p_music_title->play(true);
 }
